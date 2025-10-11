@@ -10,7 +10,7 @@ import { useLogin } from "./hook";
 import type { LoginForm, LoginResponse } from "./model";
 
 const initialFormValues: LoginForm & { remember: boolean } = {
-  email: "",
+  username: "",
   password: "",
   remember: false,
 };
@@ -76,13 +76,13 @@ export default function LoginForm() {
     event.preventDefault();
     setErrorMessage(null);
 
-    if (!formValues.email.trim() || !formValues.password) {
-      setErrorMessage("И-мэйл болон нууц үгээ оруулна уу.");
+    if (!formValues.username.trim() || !formValues.password) {
+      setErrorMessage("Нэвтрэх нэр болон нууц үгээ оруулна уу.");
       return;
     }
 
     const payload: LoginForm = {
-      email: formValues.email.trim(),
+      username: formValues.username.trim(),
       password: formValues.password,
     };
 
@@ -106,16 +106,16 @@ export default function LoginForm() {
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-5">
               <label className="block text-left text-sm font-medium text-slate-700">
-                И-мэйл хаяг
+                Нэвтрэх нэр
                 <input
-                  type="email"
-                  name="email"
+                  type="text"
+                  name="username"
                   required
-                  autoComplete="email"
-                  value={formValues.email}
+                  autoComplete="username"
+                  value={formValues.username}
                   onChange={handleChange}
                   className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200"
-                  placeholder="ta@example.com"
+                  placeholder="Нэвтрэх нэрээ оруулна уу"
                 />
               </label>
 
