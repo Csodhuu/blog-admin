@@ -8,22 +8,17 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import {
-  Box,
-  Car,
-  CarFront,
-  FileText,
-  LayoutDashboard,
-  PackagePlus,
-  ShoppingBag,
-  Wrench,
+  BookImage,
+  FileUser,
+  Medal,
+  PlaneTakeoff,
+  TentTree,
+  UserStar,
   X,
 } from "lucide-react";
 import Link from "next/link";
@@ -35,53 +30,23 @@ export default function MainSidebar() {
   const [activeItem, setActiveItem] = useState<string | null>(pathname);
 
   const baseMenuItems = [
-    { id: "/", label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
-    { id: "/report", label: "Тайлан", icon: FileText, href: "/report" },
     {
-      id: "warehouse-product",
-      label: "Агуулахын удирдлага",
-      href: "/warehouse-product",
-      icon: Box,
-      children: [
-        {
-          id: "warehouse-product",
-          label: "Үндсэн агуулах",
-          href: "/warehouse-product",
-        },
-        {
-          id: "warehouse-product-item",
-          label: "Сэлбэг орлогодох",
-          href: "/warehouse-product-item",
-          icon: PackagePlus,
-        },
-      ],
+      id: "/",
+      label: "Admin хэрэглэгч ",
+      icon: UserStar,
+      href: "/admin-user",
     },
-    { id: "order", label: "Худалдаа", icon: ShoppingBag, href: "/order" },
+    { id: "/about", label: "About", icon: BookImage, href: "/about" },
+    { id: "/album", label: "Album", icon: BookImage, href: "/album" },
+    { id: "/camps", label: "Camps", icon: TentTree, href: "/camps" },
     {
-      id: "service-order",
-      label: "Засвар үйлчилгээ",
-      icon: CarFront,
-      href: "/service-order",
+      id: "/competitions",
+      label: "competitions",
+      icon: Medal,
+      href: "/competitions",
     },
-    {
-      id: "product-sales",
-      label: "Бараа борлуулалт",
-      icon: ShoppingBag,
-      href: "/product-sales",
-    },
-    { id: "ub-cab", label: "UB cab", icon: Car, href: "/ub-cab" },
-    {
-      id: "service-price",
-      label: "Засвар үйлчилгээ тохиргоо",
-      icon: Wrench,
-      href: "/service-price",
-    },
-    {
-      id: "package",
-      label: "Багц үйлчилгээний тохиргоо",
-      icon: PackagePlus,
-      href: "/package",
-    },
+    { id: "/travel", label: "travel", icon: PlaneTakeoff, href: "/travel" },
+    { id: "/contact", label: "contact", icon: FileUser, href: "/contact" },
   ];
 
   const isActive = (href?: string) =>
@@ -91,13 +56,13 @@ export default function MainSidebar() {
   return (
     <Sidebar collapsible="icon" className="border-r shadow-lg ">
       <SidebarHeader className="h-16 px-4 border-b flex items-center justify-between">
-        <Link href="/dashboard" className="flex items-center justify-center">
-          <div className="h-8 w-8 rounded-md bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold mr-2">
-            A
+        <Link
+          href="/dashboard"
+          className="flex items-center justify-center h-full"
+        >
+          <div className="h-8 px-2 rounded-md bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold mr-2">
+            Blog web admin
           </div>
-          <span className="text-xl font-bold group-data-[collapsible=icon]:hidden">
-            asdas
-          </span>
         </Link>
         <MobileCloseButton />
       </SidebarHeader>
@@ -123,33 +88,6 @@ export default function MainSidebar() {
                   <span>{item.label}</span>
                 </Link>
               </SidebarMenuButton>
-
-              {item.children && (
-                <SidebarMenuSub className="ml-6 mt-1 space-y-1 border-l border-gray-200 dark:border-gray-700">
-                  {item.children.map((sub) => (
-                    <SidebarMenuSubItem key={sub.id}>
-                      <SidebarMenuSubButton
-                        asChild
-                        isActive={isActive(sub.href)}
-                        onClick={() => setActiveItem(sub.href)}
-                        className={cn(
-                          "text-sm flex items-center justify-between w-full",
-                          isActive(sub.href)
-                            ? "text-purple-600 font-semibold"
-                            : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                        )}
-                      >
-                        <Link
-                          href={sub.href}
-                          className="flex items-center justify-between w-full"
-                        >
-                          <span>{sub.label}</span>
-                        </Link>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
-              )}
             </SidebarMenuItem>
           ))}
         </SidebarMenu>

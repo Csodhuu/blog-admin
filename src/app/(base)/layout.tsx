@@ -31,10 +31,10 @@ function AppWithMe({ children }: { children: ReactNode }) {
           <div className="flex-1 overflow-auto w-full">
             <Header />
             <div className="max-w-full mx-auto space-y-8 p-4">
-              <WithAuthClient>
-                <Suspense>{children}</Suspense>
-                <Toaster richColors position="top-center" />
-              </WithAuthClient>
+              {/* <WithAuthClient> */}
+              <Suspense>{children}</Suspense>
+              <Toaster richColors position="top-center" />
+              {/* </WithAuthClient> */}
             </div>
           </div>
         </div>
