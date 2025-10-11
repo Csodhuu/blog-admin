@@ -19,9 +19,8 @@ type RegisterFormState = typeof initialFormValues;
 
 export default function RegisterForm() {
   const router = useRouter();
-  const [formValues, setFormValues] = useState<RegisterFormState>(
-    initialFormValues
-  );
+  const [formValues, setFormValues] =
+    useState<RegisterFormState>(initialFormValues);
   const [localError, setLocalError] = useState<string | null>(null);
 
   const {
@@ -82,7 +81,7 @@ export default function RegisterForm() {
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-5">
               <label className="block text-left text-sm font-medium text-slate-700">
-                Нэр
+                Нэвтрэх нэр
                 <input
                   type="text"
                   name="username"
@@ -91,7 +90,7 @@ export default function RegisterForm() {
                   value={formValues.username}
                   onChange={handleChange}
                   className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200"
-                  placeholder="Таны нэр"
+                  placeholder="Нэвтрэх нэр"
                 />
               </label>
 
