@@ -11,7 +11,9 @@ export default function LoginPage() {
       <div className="w-full max-w-md rounded-2xl bg-white shadow-xl ring-1 ring-slate-200">
         <div className="px-8 py-10">
           <div className="space-y-2 text-center">
-            <h1 className="text-3xl font-semibold text-slate-900">Welcome back</h1>
+            <h1 className="text-3xl font-semibold text-slate-900">
+              Welcome back
+            </h1>
             <p className="text-sm text-slate-500">
               Sign in to manage your blog posts, drafts, and site settings.
             </p>
