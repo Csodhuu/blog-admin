@@ -37,7 +37,11 @@ export default function LoginForm() {
     const refreshToken = extractToken(data, ["refreshToken", "refresh_token"]);
 
     if (accessToken) {
-      setCookie("accessToken", accessToken, {
+      const bearerToken = accessToken.startsWith("Bearer ")
+        ? accessToken
+        : `Bearer ${accessToken}`;
+
+      setCookie("accessToken", bearerToken, {
         sameSite: "lax",
         secure: process.env.NODE_ENV === "production",
         path: "/",
