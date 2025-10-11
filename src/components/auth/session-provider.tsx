@@ -7,5 +7,9 @@ export default function AuthSessionProvider({
 }: {
   children: ReactNode;
 }) {
+  if (process.env.NEXT_PUBLIC_ENABLE_NEXTAUTH !== "true") {
+    return <>{children}</>;
+  }
+
   return <SessionProvider>{children}</SessionProvider>;
 }
