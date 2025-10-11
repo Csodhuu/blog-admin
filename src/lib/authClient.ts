@@ -8,6 +8,8 @@ export const service = axios.create({
   baseURL: "https://blog-web-backend-kn6s.onrender.com/",
 });
 
+const isAuthRoute = (pathname: string) => pathname === "/" || pathname.startsWith("/login");
+
 service.interceptors.request.use((config) => {
   const token = typeof window !== "undefined" ? getCookie("accessToken") : null;
   if (token) {
@@ -18,16 +20,26 @@ service.interceptors.request.use((config) => {
 
 service.interceptors.response.use(
   (res) => {
-    if (res.data.message === "Unauthorized") {
-      window.location.href = "/";
+    if (
+      res.data?.message === "Unauthorized" &&
+      typeof window !== "undefined" &&
+      !isAuthRoute(window.location.pathname)
+    ) {
+      window.location.href = "/login";
     }
     return res;
   },
   (err) => {
-    if (err.response.status === 401 || err.response.status === 403) {
-      if (window) {
-        window.location.href = "/";
-      }
+    const status = err?.response?.status;
+
+    if (
+      typeof window !== "undefined" &&
+      (status === 401 || status === 403) &&
+      !isAuthRoute(window.location.pathname)
+    ) {
+      window.location.href = "/login";
     }
+
+    return Promise.reject(err);
   }
 );
