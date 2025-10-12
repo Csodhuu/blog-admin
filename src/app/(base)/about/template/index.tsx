@@ -1,3 +1,4 @@
+"use client";
 import { useGetAbout } from "../hook";
 
 export default function AboutClient() {
