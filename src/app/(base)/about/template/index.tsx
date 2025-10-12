@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -47,8 +48,7 @@ const normalizeAbouts = (payload: unknown): AboutEntity[] => {
   return [];
 };
 
-const extractId = (about: AboutEntity | null) =>
-  about?._id ?? about?.id ?? "";
+const extractId = (about: AboutEntity | null) => about?._id ?? about?.id ?? "";
 
 export default function AboutClient() {
   const { data, isLoading } = useGetAbout();
@@ -60,7 +60,7 @@ export default function AboutClient() {
 
   const [selectedAbout, setSelectedAbout] = useState<AboutEntity | null>(null);
   const [formValues, setFormValues] = useState<AboutFormValues>(
-    createEmptyFormState(),
+    createEmptyFormState()
   );
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
@@ -85,7 +85,7 @@ export default function AboutClient() {
 
   const handleFieldChange = (
     field: keyof AboutFormValues,
-    value: AboutFormValues[keyof AboutFormValues],
+    value: AboutFormValues[keyof AboutFormValues]
   ) => {
     setFormValues((prev) => ({
       ...prev,
@@ -96,12 +96,12 @@ export default function AboutClient() {
   const handleTimelineChange = (
     index: number,
     key: "year" | "milestone",
-    value: string,
+    value: string
   ) => {
     setFormValues((prev) => ({
       ...prev,
       timeline: prev.timeline.map((item, itemIndex) =>
-        itemIndex === index ? { ...item, [key]: value } : item,
+        itemIndex === index ? { ...item, [key]: value } : item
       ),
     }));
   };
@@ -109,12 +109,12 @@ export default function AboutClient() {
   const handleCapabilityChange = (
     index: number,
     key: "title" | "description",
-    value: string,
+    value: string
   ) => {
     setFormValues((prev) => ({
       ...prev,
       capabilities: prev.capabilities.map((item, itemIndex) =>
-        itemIndex === index ? { ...item, [key]: value } : item,
+        itemIndex === index ? { ...item, [key]: value } : item
       ),
     }));
   };
@@ -122,12 +122,12 @@ export default function AboutClient() {
   const handleArrayTextChange = (
     field: "achievements" | "paragraphs",
     index: number,
-    value: string,
+    value: string
   ) => {
     setFormValues((prev) => ({
       ...prev,
       [field]: prev[field].map((item, itemIndex) =>
-        itemIndex === index ? value : item,
+        itemIndex === index ? value : item
       ),
     }));
   };
@@ -156,7 +156,9 @@ export default function AboutClient() {
   const removeCapabilityItem = (index: number) => {
     setFormValues((prev) => ({
       ...prev,
-      capabilities: prev.capabilities.filter((_, itemIndex) => itemIndex !== index),
+      capabilities: prev.capabilities.filter(
+        (_, itemIndex) => itemIndex !== index
+      ),
     }));
   };
 
@@ -169,7 +171,7 @@ export default function AboutClient() {
 
   const removeArrayTextItem = (
     field: "achievements" | "paragraphs",
-    index: number,
+    index: number
   ) => {
     setFormValues((prev) => ({
       ...prev,
@@ -232,7 +234,7 @@ export default function AboutClient() {
           onError: (error) => {
             toast.error(getErrorMessage(error));
           },
-        },
+        }
       );
       return;
     }
@@ -260,7 +262,7 @@ export default function AboutClient() {
     }
 
     const confirmation = window.confirm(
-      "Энэ танилцуулгын бичлэгийг устгахдаа итгэлтэй байна уу?",
+      "Энэ танилцуулгын бичлэгийг устгахдаа итгэлтэй байна уу?"
     );
 
     if (!confirmation) return;
@@ -281,7 +283,7 @@ export default function AboutClient() {
         onSettled: () => {
           setDeletingId(null);
         },
-      },
+      }
     );
   };
 
@@ -294,7 +296,8 @@ export default function AboutClient() {
               Танилцуулгын бичлэгүүд
             </h2>
             <p className="text-sm text-gray-500">
-              Олон нийтэд харагдах "Бидний тухай" хуудсан дээрх агуулгыг удирдаарай.
+              Олон нийтэд харагдах "Бидний тухай" хуудсан дээрх агуулгыг
+              удирдаарай.
             </p>
           </div>
           <Button onClick={resetForm} variant="outline" size="sm">
@@ -303,7 +306,9 @@ export default function AboutClient() {
         </div>
         <div className="px-5 py-4">
           {isLoading ? (
-            <p className="text-sm text-gray-500">Бичлэгүүдийг ачаалж байна...</p>
+            <p className="text-sm text-gray-500">
+              Бичлэгүүдийг ачаалж байна...
+            </p>
           ) : abouts.length === 0 ? (
             <p className="text-sm text-gray-500">
               Одоогоор бичлэг алга. Маягтыг ашиглан шинэ бичлэг үүсгээрэй.
@@ -316,7 +321,9 @@ export default function AboutClient() {
                     <th className="px-4 py-3 font-medium">Гарчиг</th>
                     <th className="px-4 py-3 font-medium">Шинэчлэгдсэн</th>
                     <th className="px-4 py-3 font-medium">Догол мөрүүд</th>
-                    <th className="px-4 py-3 font-medium text-right">Үйлдлүүд</th>
+                    <th className="px-4 py-3 font-medium text-right">
+                      Үйлдлүүд
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 text-gray-700">
@@ -384,13 +391,13 @@ export default function AboutClient() {
         </div>
         <form className="space-y-6 px-5 py-6" onSubmit={handleSubmit}>
           <div className="grid gap-2">
-            <label className="text-sm font-medium text-gray-700">
-              Гарчиг
-            </label>
+            <label className="text-sm font-medium text-gray-700">Гарчиг</label>
             <Input
               placeholder="Бидний тухай"
               value={formValues.title}
-              onChange={(event) => handleFieldChange("title", event.target.value)}
+              onChange={(event) =>
+                handleFieldChange("title", event.target.value)
+              }
             />
           </div>
 
@@ -414,19 +421,28 @@ export default function AboutClient() {
             <Textarea
               placeholder="Өөрсдийн түүх, үнэт зүйл, эрхэм зорилгоо хуваалцаарай."
               value={formValues.content}
-              onChange={(event) => handleFieldChange("content", event.target.value)}
+              onChange={(event) =>
+                handleFieldChange("content", event.target.value)
+              }
             />
           </div>
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-semibold text-gray-800">Цаг хугацааны шугам</h3>
+                <h3 className="text-sm font-semibold text-gray-800">
+                  Цаг хугацааны шугам
+                </h3>
                 <p className="text-xs text-gray-500">
                   Он онуудад болсон чухал үйл явдлуудыг онцолж харуулаарай.
                 </p>
               </div>
-              <Button type="button" size="sm" variant="outline" onClick={addTimelineItem}>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={addTimelineItem}
+              >
                 Үйл явдал нэмэх
               </Button>
             </div>
@@ -450,7 +466,11 @@ export default function AboutClient() {
                         placeholder="2024"
                         value={item.year}
                         onChange={(event) =>
-                          handleTimelineChange(index, "year", event.target.value)
+                          handleTimelineChange(
+                            index,
+                            "year",
+                            event.target.value
+                          )
                         }
                       />
                     </div>
@@ -465,7 +485,7 @@ export default function AboutClient() {
                           handleTimelineChange(
                             index,
                             "milestone",
-                            event.target.value,
+                            event.target.value
                           )
                         }
                       />
@@ -489,7 +509,9 @@ export default function AboutClient() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-semibold text-gray-800">Амжилтууд</h3>
+                <h3 className="text-sm font-semibold text-gray-800">
+                  Амжилтууд
+                </h3>
                 <p className="text-xs text-gray-500">
                   Шагнал, хүлээн зөвшөөрөлт болон гол ололтоо харуулна уу.
                 </p>
@@ -518,7 +540,7 @@ export default function AboutClient() {
                       handleArrayTextChange(
                         "achievements",
                         index,
-                        event.target.value,
+                        event.target.value
                       )
                     }
                   />
@@ -538,7 +560,9 @@ export default function AboutClient() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-semibold text-gray-800">Догол мөрүүд</h3>
+                <h3 className="text-sm font-semibold text-gray-800">
+                  Догол мөрүүд
+                </h3>
                 <p className="text-xs text-gray-500">
                   Түүхээ уншихад ойлгомжтой хэсгүүдэд хуваагаарай.
                 </p>
@@ -567,7 +591,7 @@ export default function AboutClient() {
                       handleArrayTextChange(
                         "paragraphs",
                         index,
-                        event.target.value,
+                        event.target.value
                       )
                     }
                   />
@@ -589,9 +613,12 @@ export default function AboutClient() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-semibold text-gray-800">Чадварууд</h3>
+                <h3 className="text-sm font-semibold text-gray-800">
+                  Чадварууд
+                </h3>
                 <p className="text-xs text-gray-500">
-                  Танай байгууллагыг тодорхойлдог үйлчилгээ, ур чадваруудыг жагсаана уу.
+                  Танай байгууллагыг тодорхойлдог үйлчилгээ, ур чадваруудыг
+                  жагсаана уу.
                 </p>
               </div>
               <Button
@@ -626,7 +653,7 @@ export default function AboutClient() {
                           handleCapabilityChange(
                             index,
                             "title",
-                            event.target.value,
+                            event.target.value
                           )
                         }
                       />
@@ -642,7 +669,7 @@ export default function AboutClient() {
                           handleCapabilityChange(
                             index,
                             "description",
-                            event.target.value,
+                            event.target.value
                           )
                         }
                       />
@@ -673,7 +700,9 @@ export default function AboutClient() {
               Цуцлах
             </Button>
             <Button type="submit" disabled={isMutating}>
-              {extractId(selectedAbout) ? "Бичлэгийг шинэчлэх" : "Бичлэг үүсгэх"}
+              {extractId(selectedAbout)
+                ? "Бичлэгийг шинэчлэх"
+                : "Бичлэг үүсгэх"}
             </Button>
           </div>
         </form>
