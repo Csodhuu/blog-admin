@@ -1,6 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-export default function DashboardClient() {
+import { useGetAdminUser } from "../hook";
+
+export default function AdminClient() {
+  const { data } = useGetAdminUser();
+  console.log(data);
   return <div className="bg-gray-50 py-10">ada</div>;
 }

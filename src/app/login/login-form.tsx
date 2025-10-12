@@ -10,7 +10,7 @@ import { useLogin } from "./hook";
 import type { LoginForm, LoginResponse } from "./model";
 
 const initialFormValues: LoginForm & { remember: boolean } = {
-  username: "",
+  email: "",
   password: "",
   remember: false,
 };
@@ -66,9 +66,7 @@ export default function LoginForm() {
     router.push("/admin-user");
   };
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, type, checked, value } = event.target;
     setFormValues((prev) => ({
       ...prev,
@@ -80,13 +78,13 @@ export default function LoginForm() {
     event.preventDefault();
     setErrorMessage(null);
 
-    if (!formValues.username.trim() || !formValues.password) {
+    if (!formValues.email.trim() || !formValues.password) {
       setErrorMessage("Нэвтрэх нэр болон нууц үгээ оруулна уу.");
       return;
     }
 
     const payload: LoginForm = {
-      username: formValues.username.trim(),
+      email: formValues.email.trim(),
       password: formValues.password,
     };
 
@@ -113,10 +111,10 @@ export default function LoginForm() {
                 Нэвтрэх нэр
                 <input
                   type="text"
-                  name="username"
+                  name="email"
                   required
                   autoComplete="username"
-                  value={formValues.username}
+                  value={formValues.email}
                   onChange={handleChange}
                   className="mt-2 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200"
                   placeholder="Нэвтрэх нэрээ оруулна уу"
@@ -189,7 +187,7 @@ export default function LoginForm() {
 
 function extractToken(
   data: LoginResponse,
-  possibleKeys: string[],
+  possibleKeys: string[]
 ): string | null {
   if (!data || typeof data !== "object") {
     return null;

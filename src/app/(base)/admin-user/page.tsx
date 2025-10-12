@@ -1,5 +1,5 @@
-import DashboardClient from "./template";
+import AdminClient from "./template";
 
-export default function Dashboard() {
-  return <DashboardClient />;
+export default function Admin() {
+  return <AdminClient />;
 }

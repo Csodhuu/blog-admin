@@ -2,13 +2,14 @@ import axios from "axios";
 
 import { getCookie } from "cookies-next";
 
-export const BASEURL = "https://blog-web-backend-kn6s.onrender.com/";
+export const BASEURL = "https://blog-web-backend-kn6s.onrender.com/api/";
 
 export const service = axios.create({
-  baseURL: "https://blog-web-backend-kn6s.onrender.com/",
+  baseURL: "https://blog-web-backend-kn6s.onrender.com/api/",
 });
 
-const isAuthRoute = (pathname: string) => pathname === "/" || pathname.startsWith("/login");
+const isAuthRoute = (pathname: string) =>
+  pathname === "/" || pathname.startsWith("/login");
 
 service.interceptors.request.use((config) => {
   const token = typeof window !== "undefined" ? getCookie("accessToken") : null;

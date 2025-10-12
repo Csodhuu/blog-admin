@@ -1,1 +1,2 @@
-export const medicalHistoryKey = "medical-history";
+export const adminUserKey = "admin-user-key";
+export const aboutKey = "about-key";
