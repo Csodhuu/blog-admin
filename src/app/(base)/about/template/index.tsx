@@ -187,7 +187,7 @@ export default function AboutClient() {
     return (
       axiosError?.response?.data?.message ||
       axiosError?.message ||
-      "Something went wrong."
+      "Алдаа гарлаа."
     );
   };
 
@@ -226,7 +226,7 @@ export default function AboutClient() {
         { id, payload },
         {
           onSuccess: () => {
-            toast.success("About entry updated successfully.");
+            toast.success("Танилцуулгын бичлэгийг амжилттай шинэчиллээ.");
             resetForm();
           },
           onError: (error) => {
@@ -239,7 +239,7 @@ export default function AboutClient() {
 
     createAbout(payload, {
       onSuccess: () => {
-        toast.success("About entry created successfully.");
+        toast.success("Танилцуулгын бичлэгийг амжилттай үүсгэлээ.");
         resetForm();
       },
       onError: (error) => {
@@ -255,12 +255,12 @@ export default function AboutClient() {
   const handleDelete = (about: AboutEntity) => {
     const id = extractId(about);
     if (!id) {
-      toast.error("Unable to determine the selected entry.");
+      toast.error("Сонгосон бичлэгийг тодорхойлж чадсангүй.");
       return;
     }
 
     const confirmation = window.confirm(
-      "Are you sure you want to delete this about entry?",
+      "Энэ танилцуулгын бичлэгийг устгахдаа итгэлтэй байна уу?",
     );
 
     if (!confirmation) return;
@@ -270,7 +270,7 @@ export default function AboutClient() {
       { id },
       {
         onSuccess: () => {
-          toast.success("About entry deleted successfully.");
+          toast.success("Танилцуулгын бичлэгийг амжилттай устгалаа.");
           if (extractId(selectedAbout) === id) {
             resetForm();
           }
@@ -291,32 +291,32 @@ export default function AboutClient() {
         <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4">
           <div>
             <h2 className="text-lg font-semibold text-gray-900">
-              About entries
+              Танилцуулгын бичлэгүүд
             </h2>
             <p className="text-sm text-gray-500">
-              Manage the content displayed on the public About page.
+              Олон нийтэд харагдах "Бидний тухай" хуудсан дээрх агуулгыг удирдаарай.
             </p>
           </div>
           <Button onClick={resetForm} variant="outline" size="sm">
-            Create new
+            Шинээр үүсгэх
           </Button>
         </div>
         <div className="px-5 py-4">
           {isLoading ? (
-            <p className="text-sm text-gray-500">Loading entries...</p>
+            <p className="text-sm text-gray-500">Бичлэгүүдийг ачаалж байна...</p>
           ) : abouts.length === 0 ? (
             <p className="text-sm text-gray-500">
-              No entries yet. Start by creating one using the form.
+              Одоогоор бичлэг алга. Маягтыг ашиглан шинэ бичлэг үүсгээрэй.
             </p>
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200 text-left text-sm">
                 <thead>
                   <tr className="text-xs uppercase tracking-wide text-gray-500">
-                    <th className="px-4 py-3 font-medium">Title</th>
-                    <th className="px-4 py-3 font-medium">Updated</th>
-                    <th className="px-4 py-3 font-medium">Paragraphs</th>
-                    <th className="px-4 py-3 font-medium text-right">Actions</th>
+                    <th className="px-4 py-3 font-medium">Гарчиг</th>
+                    <th className="px-4 py-3 font-medium">Шинэчлэгдсэн</th>
+                    <th className="px-4 py-3 font-medium">Догол мөрүүд</th>
+                    <th className="px-4 py-3 font-medium text-right">Үйлдлүүд</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 text-gray-700">
@@ -329,7 +329,7 @@ export default function AboutClient() {
                         className={isActive ? "bg-gray-50" : undefined}
                       >
                         <td className="px-4 py-3 font-medium text-gray-900">
-                          {about.title || "Untitled"}
+                          {about.title || "Гарчиггүй"}
                         </td>
                         <td className="px-4 py-3">
                           {about.updatedAt
@@ -347,7 +347,7 @@ export default function AboutClient() {
                               size="sm"
                               onClick={() => handleEdit(about)}
                             >
-                              Edit
+                              Засах
                             </Button>
                             <Button
                               type="button"
@@ -356,7 +356,7 @@ export default function AboutClient() {
                               onClick={() => handleDelete(about)}
                               disabled={isDeleting && deletingId === id}
                             >
-                              Delete
+                              Устгах
                             </Button>
                           </div>
                         </td>
@@ -373,20 +373,22 @@ export default function AboutClient() {
       <section className="rounded-xl border border-gray-200 bg-white shadow-sm">
         <div className="border-b border-gray-200 px-5 py-4">
           <h2 className="text-lg font-semibold text-gray-900">
-            {extractId(selectedAbout) ? "Edit about entry" : "Create about entry"}
+            {extractId(selectedAbout)
+              ? "Танилцуулгын бичлэгийг засах"
+              : "Танилцуулгын бичлэг үүсгэх"}
           </h2>
           <p className="text-sm text-gray-500">
-            Fill out the sections below to control the content on your About
-            page.
+            Доорх хэсгүүдийг бөглөж "Бидний тухай" хуудсан дахь агуулгыг
+            удирдаарай.
           </p>
         </div>
         <form className="space-y-6 px-5 py-6" onSubmit={handleSubmit}>
           <div className="grid gap-2">
             <label className="text-sm font-medium text-gray-700">
-              Title
+              Гарчиг
             </label>
             <Input
-              placeholder="About us"
+              placeholder="Бидний тухай"
               value={formValues.title}
               onChange={(event) => handleFieldChange("title", event.target.value)}
             />
@@ -394,7 +396,7 @@ export default function AboutClient() {
 
           <div className="grid gap-2">
             <label className="text-sm font-medium text-gray-700">
-              Hero image URL
+              Нүүр зургийн холбоос
             </label>
             <Input
               placeholder="https://example.com/image.jpg"
@@ -407,10 +409,10 @@ export default function AboutClient() {
 
           <div className="grid gap-2">
             <label className="text-sm font-medium text-gray-700">
-              Intro content
+              Танилцуулгын агуулга
             </label>
             <Textarea
-              placeholder="Share your story, values, and mission."
+              placeholder="Өөрсдийн түүх, үнэт зүйл, эрхэм зорилгоо хуваалцаарай."
               value={formValues.content}
               onChange={(event) => handleFieldChange("content", event.target.value)}
             />
@@ -419,20 +421,18 @@ export default function AboutClient() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-semibold text-gray-800">
-                  Timeline
-                </h3>
+                <h3 className="text-sm font-semibold text-gray-800">Цаг хугацааны шугам</h3>
                 <p className="text-xs text-gray-500">
-                  Highlight important milestones across the years.
+                  Он онуудад болсон чухал үйл явдлуудыг онцолж харуулаарай.
                 </p>
               </div>
               <Button type="button" size="sm" variant="outline" onClick={addTimelineItem}>
-                Add milestone
+                Үйл явдал нэмэх
               </Button>
             </div>
             {formValues.timeline.length === 0 && (
               <p className="text-sm text-gray-500">
-                No milestones yet. Add your first one.
+                Одоогоор үйл явдал алга. Эхнийгээ нэмээрэй.
               </p>
             )}
             <div className="space-y-4">
@@ -444,7 +444,7 @@ export default function AboutClient() {
                   <div className="grid gap-3 md:grid-cols-[160px_1fr] md:gap-4">
                     <div className="grid gap-2">
                       <label className="text-xs font-medium text-gray-500">
-                        Year
+                        Он
                       </label>
                       <Input
                         placeholder="2024"
@@ -456,10 +456,10 @@ export default function AboutClient() {
                     </div>
                     <div className="grid gap-2">
                       <label className="text-xs font-medium text-gray-500">
-                        Milestone
+                        Чухал үйл явдал
                       </label>
                       <Input
-                        placeholder="Opened our second office"
+                        placeholder="Хоёр дахь салбараа нээлээ"
                         value={item.milestone}
                         onChange={(event) =>
                           handleTimelineChange(
@@ -478,7 +478,7 @@ export default function AboutClient() {
                       size="sm"
                       onClick={() => removeTimelineItem(index)}
                     >
-                      Remove
+                      Арилгах
                     </Button>
                   </div>
                 </div>
@@ -489,11 +489,9 @@ export default function AboutClient() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-semibold text-gray-800">
-                  Achievements
-                </h3>
+                <h3 className="text-sm font-semibold text-gray-800">Амжилтууд</h3>
                 <p className="text-xs text-gray-500">
-                  Showcase awards, recognitions, or key accomplishments.
+                  Шагнал, хүлээн зөвшөөрөлт болон гол ололтоо харуулна уу.
                 </p>
               </div>
               <Button
@@ -502,19 +500,19 @@ export default function AboutClient() {
                 variant="outline"
                 onClick={() => addArrayTextItem("achievements")}
               >
-                Add achievement
+                Амжилт нэмэх
               </Button>
             </div>
             {formValues.achievements.length === 0 && (
               <p className="text-sm text-gray-500">
-                No achievements added yet.
+                Одоогоор амжилт нэмэгдээгүй байна.
               </p>
             )}
             <div className="space-y-3">
               {formValues.achievements.map((achievement, index) => (
                 <div key={`achievement-${index}`} className="flex gap-3">
                   <Input
-                    placeholder="Best startup award 2023"
+                    placeholder="2023 оны шилдэг стартапын шагнал"
                     value={achievement}
                     onChange={(event) =>
                       handleArrayTextChange(
@@ -530,7 +528,7 @@ export default function AboutClient() {
                     size="sm"
                     onClick={() => removeArrayTextItem("achievements", index)}
                   >
-                    Remove
+                    Арилгах
                   </Button>
                 </div>
               ))}
@@ -540,9 +538,9 @@ export default function AboutClient() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-semibold text-gray-800">Paragraphs</h3>
+                <h3 className="text-sm font-semibold text-gray-800">Догол мөрүүд</h3>
                 <p className="text-xs text-gray-500">
-                  Break down your story into digestible sections.
+                  Түүхээ уншихад ойлгомжтой хэсгүүдэд хуваагаарай.
                 </p>
               </div>
               <Button
@@ -551,19 +549,19 @@ export default function AboutClient() {
                 variant="outline"
                 onClick={() => addArrayTextItem("paragraphs")}
               >
-                Add paragraph
+                Догол мөр нэмэх
               </Button>
             </div>
             {formValues.paragraphs.length === 0 && (
               <p className="text-sm text-gray-500">
-                No paragraphs added yet.
+                Одоогоор догол мөр нэмэгдээгүй байна.
               </p>
             )}
             <div className="space-y-3">
               {formValues.paragraphs.map((paragraph, index) => (
                 <div key={`paragraph-${index}`} className="space-y-2">
                   <Textarea
-                    placeholder="We started as a small team with a big vision..."
+                    placeholder="Бид агуу алсын хараатай жижигхэн баг байдлаар эхэлсэн..."
                     value={paragraph}
                     onChange={(event) =>
                       handleArrayTextChange(
@@ -580,7 +578,7 @@ export default function AboutClient() {
                       size="sm"
                       onClick={() => removeArrayTextItem("paragraphs", index)}
                     >
-                      Remove
+                      Арилгах
                     </Button>
                   </div>
                 </div>
@@ -591,11 +589,9 @@ export default function AboutClient() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-semibold text-gray-800">
-                  Capabilities
-                </h3>
+                <h3 className="text-sm font-semibold text-gray-800">Чадварууд</h3>
                 <p className="text-xs text-gray-500">
-                  List the services or skills that define your organisation.
+                  Танай байгууллагыг тодорхойлдог үйлчилгээ, ур чадваруудыг жагсаана уу.
                 </p>
               </div>
               <Button
@@ -604,12 +600,12 @@ export default function AboutClient() {
                 variant="outline"
                 onClick={addCapabilityItem}
               >
-                Add capability
+                Чадвар нэмэх
               </Button>
             </div>
             {formValues.capabilities.length === 0 && (
               <p className="text-sm text-gray-500">
-                No capabilities added yet.
+                Одоогоор чадвар нэмэгдээгүй байна.
               </p>
             )}
             <div className="space-y-4">
@@ -621,10 +617,10 @@ export default function AboutClient() {
                   <div className="grid gap-3 md:grid-cols-2 md:gap-4">
                     <div className="grid gap-2">
                       <label className="text-xs font-medium text-gray-500">
-                        Title
+                        Гарчиг
                       </label>
                       <Input
-                        placeholder="Consulting"
+                        placeholder="Зөвлөх үйлчилгээ"
                         value={capability.title}
                         onChange={(event) =>
                           handleCapabilityChange(
@@ -637,10 +633,10 @@ export default function AboutClient() {
                     </div>
                     <div className="grid gap-2">
                       <label className="text-xs font-medium text-gray-500">
-                        Description
+                        Тайлбар
                       </label>
                       <Textarea
-                        placeholder="We help teams navigate complex digital transformations."
+                        placeholder="Бид багуудад нарийн төвөгтэй дижитал өөрчлөлтийг хэрэгжүүлэхэд тусалдаг."
                         value={capability.description}
                         onChange={(event) =>
                           handleCapabilityChange(
@@ -659,7 +655,7 @@ export default function AboutClient() {
                       size="sm"
                       onClick={() => removeCapabilityItem(index)}
                     >
-                      Remove
+                      Арилгах
                     </Button>
                   </div>
                 </div>
@@ -674,10 +670,10 @@ export default function AboutClient() {
               onClick={resetForm}
               disabled={isMutating}
             >
-              Cancel
+              Цуцлах
             </Button>
             <Button type="submit" disabled={isMutating}>
-              {extractId(selectedAbout) ? "Update entry" : "Create entry"}
+              {extractId(selectedAbout) ? "Бичлэгийг шинэчлэх" : "Бичлэг үүсгэх"}
             </Button>
           </div>
         </form>
