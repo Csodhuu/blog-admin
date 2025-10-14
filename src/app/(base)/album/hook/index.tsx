@@ -10,7 +10,7 @@ export const useGetAlbums = () => {
   return useQuery<AlbumListResponse>({
     queryKey: [albumKey],
     queryFn: async () => {
-      const res = await service.get(`/album`);
+      const res = await service.get(`/albums`);
       return res.data;
     },
   });
@@ -21,7 +21,7 @@ export const useCreateAlbum = () => {
 
   return useMutation({
     mutationFn: async (payload: AlbumPayload) => {
-      const res = await service.post(`/album`, payload);
+      const res = await service.post(`/albums`, payload);
       return res.data;
     },
     onSuccess: () => {
@@ -40,7 +40,7 @@ export const useUpdateAlbum = () => {
 
   return useMutation({
     mutationFn: async ({ id, payload }: UpdateAlbumArgs) => {
-      const res = await service.put(`/album/${id}`, payload);
+      const res = await service.put(`/albums/${id}`, payload);
       return res.data;
     },
     onSuccess: () => {
@@ -58,7 +58,7 @@ export const useDeleteAlbum = () => {
 
   return useMutation({
     mutationFn: async ({ id }: DeleteAlbumArgs) => {
-      const res = await service.delete(`/album/${id}`);
+      const res = await service.delete(`/albums/${id}`);
       return res.data;
     },
     onSuccess: () => {
