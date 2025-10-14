@@ -10,7 +10,7 @@ export const useGetTravels = () => {
   return useQuery<TravelListResponse>({
     queryKey: [travelKey],
     queryFn: async () => {
-      const res = await service.get(`/travels`);
+      const res = await service.get(`/travel`);
       return res.data;
     },
   });
@@ -21,7 +21,7 @@ export const useCreateTravel = () => {
 
   return useMutation({
     mutationFn: async (payload: TravelPayload) => {
-      const res = await service.post(`/travels`, payload);
+      const res = await service.post(`/travel`, payload);
       return res.data;
     },
     onSuccess: () => {
@@ -40,7 +40,7 @@ export const useUpdateTravel = () => {
 
   return useMutation({
     mutationFn: async ({ id, payload }: UpdateTravelArgs) => {
-      const res = await service.put(`/travels/${id}`, payload);
+      const res = await service.put(`/travel/${id}`, payload);
       return res.data;
     },
     onSuccess: () => {
@@ -58,7 +58,7 @@ export const useDeleteTravel = () => {
 
   return useMutation({
     mutationFn: async ({ id }: DeleteTravelArgs) => {
-      const res = await service.delete(`/travels/${id}`);
+      const res = await service.delete(`/travel/${id}`);
       return res.data;
     },
     onSuccess: () => {
