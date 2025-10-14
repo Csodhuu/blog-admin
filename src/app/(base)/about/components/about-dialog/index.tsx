@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent } from "react";
+import { toast } from "sonner";
 
 import {
   Dialog,
@@ -12,6 +13,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+
+import { getUploadErrorMessage, uploadImage } from "@/utils/upload";
 
 import type { AboutEntity, AboutPayload } from "../../hook";
 
@@ -78,14 +81,17 @@ export default function AboutDialog({
   const [formValues, setFormValues] = useState<AboutPayload>(
     createEmptyFormState()
   );
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     if (!open) {
       setFormValues(createEmptyFormState());
+      setIsUploading(false);
       return;
     }
 
     setFormValues(normalizedInitialValues);
+    setIsUploading(false);
   }, [open, normalizedInitialValues]);
 
   const handleFieldChange = <K extends keyof AboutPayload>(
@@ -189,6 +195,30 @@ export default function AboutDialog({
     onSubmit(formValues);
   };
 
+  const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const input = event.target;
+    const file = input.files?.[0];
+
+    if (!file) {
+      input.value = "";
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      const uploadedUrl = await uploadImage(file);
+
+      handleFieldChange("paragraphImage", uploadedUrl);
+      toast.success("Зургийг амжилттай хууллаа.");
+    } catch (error) {
+      toast.error(getUploadErrorMessage(error));
+    } finally {
+      setIsUploading(false);
+      input.value = "";
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
@@ -217,16 +247,36 @@ export default function AboutDialog({
 
             <div className="grid gap-2">
               <label className="text-sm font-medium text-gray-700">
-                Нүүр зургийн холбоос
+                Нүүр зураг хуулах
               </label>
               <Input
-                placeholder="https://example.com/image.jpg"
-                value={formValues.paragraphImage}
-                onChange={(event) =>
-                  handleFieldChange("paragraphImage", event.target.value)
-                }
-                disabled={isSubmitting}
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                disabled={isSubmitting || isUploading}
               />
+              {isUploading && (
+                <p className="text-xs text-gray-500">Зургийг хуулж байна...</p>
+              )}
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-gray-600">
+                  Хуулсан зургийн холбоос
+                </p>
+                {formValues.paragraphImage ? (
+                  <a
+                    href={formValues.paragraphImage}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-xs text-blue-600 underline break-words"
+                  >
+                    {formValues.paragraphImage}
+                  </a>
+                ) : (
+                  <p className="text-xs text-gray-500">
+                    Зургийг хуулсны дараа холбоос энд харагдана.
+                  </p>
+                )}
+              </div>
             </div>
 
             <div className="grid gap-2">
