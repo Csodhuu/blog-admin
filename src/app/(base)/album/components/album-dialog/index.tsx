@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent } from "react";
 import { Plus, Trash2 } from "lucide-react";
+import type { AxiosError } from "axios";
+import { toast } from "sonner";
 
 import {
   Dialog,
@@ -14,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import { service } from "@/lib/authClient";
 
 import type { AlbumItem, AlbumPayload } from "../../model";
 import { createEmptyAlbumPayload } from "../../model";
@@ -54,6 +57,17 @@ export default function AlbumDialog({
   const [formValues, setFormValues] = useState<AlbumPayload>(
     createEmptyAlbumPayload()
   );
+  const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
+
+  const getUploadErrorMessage = (error: unknown) => {
+    const axiosError = error as AxiosError<{ message?: string }>;
+
+    return (
+      axiosError?.response?.data?.message ||
+      axiosError?.message ||
+      "Зургийг хуулж байх үед алдаа гарлаа."
+    );
+  };
 
   const normalizedInitialValues = useMemo<AlbumPayload>(() => {
     if (!initialValues) {
@@ -78,10 +92,12 @@ export default function AlbumDialog({
   useEffect(() => {
     if (!open) {
       setFormValues(createEmptyAlbumPayload());
+      setUploadingIndex(null);
       return;
     }
 
     setFormValues(normalizedInitialValues);
+    setUploadingIndex(null);
   }, [open, normalizedInitialValues]);
 
   const handleFieldChange = <K extends keyof AlbumPayload>(
@@ -124,6 +140,49 @@ export default function AlbumDialog({
       ...prev,
       albums: prev.albums.filter((_, itemIndex) => itemIndex !== index),
     }));
+  };
+
+  const handleAlbumCoverUpload = async (
+    index: number,
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const input = event.target;
+    const file = input.files?.[0];
+
+    if (!file) {
+      input.value = "";
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    setUploadingIndex(index);
+
+    try {
+      const response = await service.post<{ url?: string }>(
+        "/upload",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      const uploadedUrl = response?.data?.url;
+
+      if (!uploadedUrl) {
+        toast.error("Серверээс зургийн холбоос ирсэнгүй.");
+        return;
+      }
+
+      handleAlbumItemChange(index, "cover", uploadedUrl);
+      toast.success("Зургийг амжилттай хууллаа.");
+    } catch (error) {
+      toast.error(getUploadErrorMessage(error));
+    } finally {
+      setUploadingIndex(null);
+      input.value = "";
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -265,20 +324,45 @@ export default function AlbumDialog({
                       </div>
                       <div className="grid gap-2">
                         <label className="text-sm font-medium text-gray-700">
-                          Хавтасны зургийн холбоос
+                          Хавтасны зураг
                         </label>
                         <Input
-                          placeholder="https://example.com/cover.jpg"
-                          value={album.cover}
+                          type="file"
+                          accept="image/*"
                           onChange={(event) =>
-                            handleAlbumItemChange(
-                              index,
-                              "cover",
-                              event.target.value
-                            )
+                            handleAlbumCoverUpload(index, event)
                           }
-                          disabled={isSubmitting}
+                          disabled={
+                            isSubmitting || uploadingIndex === index
+                          }
                         />
+                        {uploadingIndex === index && (
+                          <p className="text-xs text-gray-500">
+                            Зургийг хуулж байна...
+                          </p>
+                        )}
+                        <div className="grid gap-1">
+                          <label className="text-xs font-medium text-gray-600">
+                            Зургийн холбоос
+                          </label>
+                          <Input
+                            placeholder="https://example.com/cover.jpg"
+                            value={album.cover}
+                            onChange={(event) =>
+                              handleAlbumItemChange(
+                                index,
+                                "cover",
+                                event.target.value
+                              )
+                            }
+                            disabled={
+                              isSubmitting || uploadingIndex === index
+                            }
+                          />
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          Файлыг амжилттай хуулсны дараа холбоос автоматаар бөглөгдөнө.
+                        </p>
                       </div>
                     </div>
                     <div className="mt-4 flex justify-end">
@@ -287,7 +371,7 @@ export default function AlbumDialog({
                         variant="ghost"
                         size="sm"
                         onClick={() => handleRemoveAlbumItem(index)}
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || uploadingIndex === index}
                       >
                         <Trash2 className="mr-2 h-4 w-4" /> Бичлэг устгах
                       </Button>
