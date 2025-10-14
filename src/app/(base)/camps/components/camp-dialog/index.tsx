@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent } from "react";
+import { toast } from "sonner";
 
 import {
   Dialog,
@@ -12,6 +13,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+
+import { getUploadErrorMessage, uploadImage } from "@/utils/upload";
 
 import type { CampPayload } from "../../model";
 import { createEmptyCampPayload } from "../../model";
@@ -45,6 +48,7 @@ export default function CampDialog({
   const [formValues, setFormValues] = useState<CampPayload>(
     createEmptyCampPayload()
   );
+  const [isUploading, setIsUploading] = useState(false);
 
   const normalizedInitialValues = useMemo<CampPayload>(() => {
     if (!initialValues) {
@@ -64,10 +68,12 @@ export default function CampDialog({
   useEffect(() => {
     if (!open) {
       setFormValues(createEmptyCampPayload());
+      setIsUploading(false);
       return;
     }
 
     setFormValues(normalizedInitialValues);
+    setIsUploading(false);
   }, [open, normalizedInitialValues]);
 
   const handleFieldChange = <K extends keyof CampPayload>(
@@ -83,6 +89,30 @@ export default function CampDialog({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit(formValues);
+  };
+
+  const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const input = event.target;
+    const file = input.files?.[0];
+
+    if (!file) {
+      input.value = "";
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      const uploadedUrl = await uploadImage(file);
+
+      handleFieldChange("image", uploadedUrl);
+      toast.success("Зургийг амжилттай хууллаа.");
+    } catch (error) {
+      toast.error(getUploadErrorMessage(error));
+    } finally {
+      setIsUploading(false);
+      input.value = "";
+    }
   };
 
   return (
@@ -163,15 +193,37 @@ export default function CampDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Зургийн холбоос</label>
+              <label className="text-sm font-medium text-gray-700">
+                Зураг хуулах
+              </label>
               <Input
-                placeholder="https://example.com/camp.jpg"
-                value={formValues.image}
-                onChange={(event) =>
-                  handleFieldChange("image", event.target.value)
-                }
-                disabled={isSubmitting}
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                disabled={isSubmitting || isUploading}
               />
+              {isUploading && (
+                <p className="text-xs text-gray-500">Зургийг хуулж байна...</p>
+              )}
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-gray-600">
+                  Хуулсан зургийн холбоос
+                </p>
+                {formValues.image ? (
+                  <a
+                    href={formValues.image}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-xs text-blue-600 underline break-words"
+                  >
+                    {formValues.image}
+                  </a>
+                ) : (
+                  <p className="text-xs text-gray-500">
+                    Зургийг хуулсны дараа холбоос энд харагдана.
+                  </p>
+                )}
+              </div>
             </div>
           </div>
 

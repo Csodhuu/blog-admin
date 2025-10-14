@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState, type ChangeEvent } from "react";
 import { Plus, Trash2 } from "lucide-react";
-import type { AxiosError } from "axios";
 import { toast } from "sonner";
 
 import {
@@ -16,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
-import { service } from "@/lib/authClient";
+import { getUploadErrorMessage, uploadImage } from "@/utils/upload";
 
 import type { AlbumItem, AlbumPayload } from "../../model";
 import { createEmptyAlbumPayload } from "../../model";
@@ -58,16 +57,6 @@ export default function AlbumDialog({
     createEmptyAlbumPayload()
   );
   const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
-
-  const getUploadErrorMessage = (error: unknown) => {
-    const axiosError = error as AxiosError<{ message?: string }>;
-
-    return (
-      axiosError?.response?.data?.message ||
-      axiosError?.message ||
-      "Зургийг хуулж байх үед алдаа гарлаа."
-    );
-  };
 
   const normalizedInitialValues = useMemo<AlbumPayload>(() => {
     if (!initialValues) {
@@ -160,20 +149,7 @@ export default function AlbumDialog({
     setUploadingIndex(index);
 
     try {
-      const response = await service.post<{ url?: string }>(
-        "/upload",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-
-      const uploadedUrl = response?.data?.url;
-
-      if (!uploadedUrl) {
-        toast.error("Серверээс зургийн холбоос ирсэнгүй.");
-        return;
-      }
+      const uploadedUrl = await uploadImage(file);
 
       handleAlbumItemChange(index, "cover", uploadedUrl);
       toast.success("Зургийг амжилттай хууллаа.");
@@ -341,24 +317,24 @@ export default function AlbumDialog({
                             Зургийг хуулж байна...
                           </p>
                         )}
-                        <div className="grid gap-1">
-                          <label className="text-xs font-medium text-gray-600">
-                            Зургийн холбоос
-                          </label>
-                          <Input
-                            placeholder="https://example.com/cover.jpg"
-                            value={album.cover}
-                            onChange={(event) =>
-                              handleAlbumItemChange(
-                                index,
-                                "cover",
-                                event.target.value
-                              )
-                            }
-                            disabled={
-                              isSubmitting || uploadingIndex === index
-                            }
-                          />
+                        <div className="space-y-1">
+                          <p className="text-xs font-medium text-gray-600">
+                            Хуулсан зургийн холбоос
+                          </p>
+                          {album.cover ? (
+                            <a
+                              href={album.cover}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-xs text-blue-600 underline break-words"
+                            >
+                              {album.cover}
+                            </a>
+                          ) : (
+                            <p className="text-xs text-gray-500">
+                              Зургийг хуулсны дараа холбоос энд харагдана.
+                            </p>
+                          )}
                         </div>
                         <p className="text-xs text-gray-500">
                           Файлыг амжилттай хуулсны дараа холбоос автоматаар бөглөгдөнө.
