@@ -51,7 +51,7 @@ const getErrorMessage = (error: unknown) => {
   return (
     axiosError?.response?.data?.message ||
     axiosError?.message ||
-    "Something went wrong."
+    "Алдаа гарлаа."
   );
 };
 
@@ -90,7 +90,7 @@ export default function CampPage() {
         { id, payload },
         {
           onSuccess: () => {
-            toast.success("Camp updated successfully.");
+            toast.success("Зуслангийн мэдээллийг амжилттай шинэчиллээ.");
             setSelectedCamp(null);
             setOpen(false);
           },
@@ -104,7 +104,7 @@ export default function CampPage() {
 
     createCamp(payload, {
       onSuccess: () => {
-        toast.success("Camp created successfully.");
+        toast.success("Зуслангийн мэдээллийг амжилттай үүсгэлээ.");
         setSelectedCamp(null);
         setOpen(false);
       },
@@ -122,12 +122,12 @@ export default function CampPage() {
   const handleDelete = (camp: CampEntity) => {
     const id = extractId(camp);
     if (!id) {
-      toast.error("Unable to determine which camp to delete.");
+      toast.error("Устгах зуслангийн мэдээллийг тодорхойлж чадсангүй.");
       return;
     }
 
     const confirmation = window.confirm(
-      "Are you sure you want to delete this camp?"
+      "Энэ зуслангийн мэдээллийг устгах уу?"
     );
 
     if (!confirmation) return;
@@ -137,7 +137,7 @@ export default function CampPage() {
       { id },
       {
         onSuccess: () => {
-          toast.success("Camp deleted successfully.");
+          toast.success("Зуслангийн мэдээллийг амжилттай устгалаа.");
           if (extractId(selectedCamp) === id) {
             setSelectedCamp(null);
             setOpen(false);
@@ -157,7 +157,7 @@ export default function CampPage() {
     <main className="space-y-6">
       <div className="flex justify-end">
         <ButtonWithAdornment
-          label="Create camp"
+          label="Зуслан нэмэх"
           onClick={handleCreateClick}
           startAdornment={<TentTree className="h-4 w-4" />}
         />

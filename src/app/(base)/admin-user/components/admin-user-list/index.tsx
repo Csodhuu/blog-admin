@@ -61,8 +61,8 @@ export default function AdminUserList({
   if (!isLoading && users.length === 0) {
     return (
       <Card className="p-6 text-sm text-gray-500 shadow-2xl">
-        You haven&apos;t created any admin users yet. Click the &quot;Create admin user&quot;
-        button to get started.
+        Одоогоор админ хэрэглэгч үүсгээгүй байна. &ldquo;Админ хэрэглэгч нэмэх&rdquo;
+        товчийг дарж эхлээрэй.
       </Card>
     );
   }
@@ -86,7 +86,7 @@ export default function AdminUserList({
                 <div className="flex flex-wrap items-center gap-2">
                   <h3 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
                     <UserCircle2 className="h-5 w-5 text-gray-500" />
-                    {user.username || "Unnamed admin"}
+                    {user.username || "Нэргүй админ"}
                   </h3>
                   <span
                     className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${
@@ -96,7 +96,7 @@ export default function AdminUserList({
                     }`}
                   >
                     <ShieldCheck className="h-3.5 w-3.5" />
-                    {user.iSuperAdmin ? "Super admin" : "Standard admin"}
+                    {user.iSuperAdmin ? "Супер админ" : "Энгийн админ"}
                   </span>
                 </div>
 
@@ -114,10 +114,10 @@ export default function AdminUserList({
 
                 <div className="grid gap-1 text-xs text-gray-500">
                   <span>
-                    Created: <strong>{formatDate(user.createdAt)}</strong>
+                    Үүсгэсэн: <strong>{formatDate(user.createdAt)}</strong>
                   </span>
                   <span>
-                    Updated: <strong>{formatDate(user.updatedAt)}</strong>
+                    Шинэчилсэн: <strong>{formatDate(user.updatedAt)}</strong>
                   </span>
                 </div>
               </div>
@@ -128,7 +128,7 @@ export default function AdminUserList({
                   size="sm"
                   onClick={() => onEdit(user)}
                 >
-                  <Edit className="mr-2 h-4 w-4" /> Edit
+                  <Edit className="mr-2 h-4 w-4" /> Засах
                 </Button>
                 <Button
                   variant="destructive"
@@ -137,7 +137,7 @@ export default function AdminUserList({
                   disabled={isUserDeleting}
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
-                  {isUserDeleting ? "Deleting..." : "Delete"}
+                  {isUserDeleting ? "Устгаж байна..." : "Устгах"}
                 </Button>
               </div>
             </div>

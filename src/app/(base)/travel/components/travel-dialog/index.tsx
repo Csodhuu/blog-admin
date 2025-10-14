@@ -90,15 +90,15 @@ export default function TravelDialog({
         <form className="space-y-6" onSubmit={handleSubmit}>
           <DialogHeader className="pb-2 text-left">
             <DialogTitle className="text-lg font-semibold">
-              {mode === "edit" ? "Update travel" : "Create travel"}
+              {mode === "edit" ? "Аяллын мэдээлэл засах" : "Аялал нэмэх"}
             </DialogTitle>
           </DialogHeader>
 
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Title</label>
+              <label className="text-sm font-medium text-gray-700">Гарчиг</label>
               <Input
-                placeholder="Summer Adventure"
+                placeholder="Зуны аялал"
                 value={formValues.title}
                 onChange={(event) =>
                   handleFieldChange("title", event.target.value)
@@ -110,10 +110,10 @@ export default function TravelDialog({
 
             <div className="grid gap-2">
               <label className="text-sm font-medium text-gray-700">
-                Destination
+                Зорьсон газар
               </label>
               <Input
-                placeholder="Bali, Indonesia"
+                placeholder="Бали, Индонез"
                 value={formValues.destination}
                 onChange={(event) =>
                   handleFieldChange("destination", event.target.value)
@@ -124,7 +124,7 @@ export default function TravelDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Date</label>
+              <label className="text-sm font-medium text-gray-700">Огноо</label>
               <Input
                 type="date"
                 value={formValues.date}
@@ -135,11 +135,11 @@ export default function TravelDialog({
 
             <div className="grid gap-2">
               <label className="text-sm font-medium text-gray-700">
-                Description
+                Тайлбар
               </label>
               <Textarea
                 rows={4}
-                placeholder="Share details about this travel experience."
+                placeholder="Энэ аяллын онцлох мөчүүдийг бичнэ үү."
                 value={formValues.description}
                 onChange={(event) =>
                   handleFieldChange("description", event.target.value)
@@ -149,7 +149,7 @@ export default function TravelDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Image</label>
+              <label className="text-sm font-medium text-gray-700">Зургийн холбоос</label>
               <Input
                 placeholder="https://example.com/travel.jpg"
                 value={formValues.image}
@@ -168,10 +168,10 @@ export default function TravelDialog({
               onClick={() => onOpenChange(false)}
               disabled={isSubmitting}
             >
-              Cancel
+              Цуцлах
             </Button>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Saving..." : mode === "edit" ? "Update" : "Create"}
+              {isSubmitting ? "Хадгалж байна..." : mode === "edit" ? "Шинэчлэх" : "Үүсгэх"}
             </Button>
           </DialogFooter>
         </form>

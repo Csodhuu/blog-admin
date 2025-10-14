@@ -79,13 +79,17 @@ export default function AdminUserDialog({
         <form className="space-y-6" onSubmit={handleSubmit}>
           <DialogHeader className="pb-2 text-left">
             <DialogTitle className="text-lg font-semibold">
-              {mode === "edit" ? "Update admin user" : "Create admin user"}
+              {mode === "edit"
+                ? "Админ хэрэглэгчийг засах"
+                : "Админ хэрэглэгч нэмэх"}
             </DialogTitle>
           </DialogHeader>
 
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Username</label>
+              <label className="text-sm font-medium text-gray-700">
+                Нэвтрэх нэр
+              </label>
               <Input
                 placeholder="admin"
                 value={formValues.username}
@@ -98,7 +102,9 @@ export default function AdminUserDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Email</label>
+              <label className="text-sm font-medium text-gray-700">
+                И-мэйл
+              </label>
               <Input
                 type="email"
                 placeholder="admin@example.com"
@@ -113,11 +119,15 @@ export default function AdminUserDialog({
 
             <div className="grid gap-1">
               <label className="text-sm font-medium text-gray-700">
-                Password
+                Нууц үг
               </label>
               <Input
                 type="password"
-                placeholder={mode === "edit" ? "Leave blank to keep current" : "Secure password"}
+                placeholder={
+                  mode === "edit"
+                    ? "Өмнөх нууц үгийг хэвээр үлдээх бол хоосон орхи"
+                    : "Аюулгүй нууц үг"
+                }
                 value={formValues.password}
                 onChange={(event) =>
                   handleFieldChange("password", event.target.value)
@@ -128,7 +138,7 @@ export default function AdminUserDialog({
               />
               {mode === "edit" && (
                 <p className="text-xs text-gray-500">
-                  Leave the password field empty to keep the existing password.
+                  Одоогийн нууц үгийг хадгалах бол энэ талбарыг хоосон үлдээгээрэй.
                 </p>
               )}
             </div>
@@ -148,7 +158,7 @@ export default function AdminUserDialog({
                 htmlFor="admin-super-toggle"
                 className="text-sm font-medium text-gray-700"
               >
-                Super admin access
+                Супер админ эрх
               </label>
             </div>
           </div>
@@ -160,10 +170,14 @@ export default function AdminUserDialog({
               onClick={() => onOpenChange(false)}
               disabled={isSubmitting}
             >
-              Cancel
+              Цуцлах
             </Button>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Saving..." : mode === "edit" ? "Update" : "Create"}
+              {isSubmitting
+                ? "Хадгалж байна..."
+                : mode === "edit"
+                ? "Шинэчлэх"
+                : "Нэмэх"}
             </Button>
           </DialogFooter>
         </form>

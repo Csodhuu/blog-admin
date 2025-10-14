@@ -61,8 +61,8 @@ export default function TravelList({
   if (!isLoading && travels.length === 0) {
     return (
       <Card className="p-6 text-sm text-gray-500 shadow-2xl">
-        You haven&apos;t created any travel experiences yet. Click the &quot;Create travel&quot;
-        button to get started.
+        Одоогоор аяллын мэдээлэл нэмэгдээгүй байна. &ldquo;Аялал нэмэх&rdquo; товчийг
+        дарж эхлээрэй.
       </Card>
     );
   }
@@ -85,7 +85,7 @@ export default function TravelList({
               <div className="space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <h3 className="text-xl font-semibold text-gray-900">
-                    {travel.title || "Untitled travel"}
+                    {travel.title || "Гарчиггүй аялал"}
                   </h3>
                   {travel.destination && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700">
@@ -105,7 +105,7 @@ export default function TravelList({
                 )}
                 {travel.image && (
                   <p className="text-xs text-gray-500">
-                    Image:{' '}
+                    Зураг:{' '}
                     <a
                       href={travel.image}
                       target="_blank"
@@ -124,7 +124,7 @@ export default function TravelList({
                   size="sm"
                   onClick={() => onEdit(travel)}
                 >
-                  <Edit className="mr-2 h-4 w-4" /> Edit
+                  <Edit className="mr-2 h-4 w-4" /> Засах
                 </Button>
                 <Button
                   variant="destructive"
@@ -133,7 +133,7 @@ export default function TravelList({
                   disabled={isTravelDeleting}
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
-                  {isTravelDeleting ? "Deleting..." : "Delete"}
+                  {isTravelDeleting ? "Устгаж байна..." : "Устгах"}
                 </Button>
               </div>
             </div>

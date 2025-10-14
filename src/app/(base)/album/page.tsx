@@ -54,7 +54,7 @@ const getErrorMessage = (error: unknown) => {
   return (
     axiosError?.response?.data?.message ||
     axiosError?.message ||
-    "Something went wrong."
+    "Алдаа гарлаа."
   );
 };
 
@@ -93,7 +93,7 @@ export default function AlbumPage() {
         { id, payload },
         {
           onSuccess: () => {
-            toast.success("Album updated successfully.");
+            toast.success("Зургийн цомгийг амжилттай шинэчиллээ.");
             setSelectedAlbum(null);
             setOpen(false);
           },
@@ -107,7 +107,7 @@ export default function AlbumPage() {
 
     createAlbum(payload, {
       onSuccess: () => {
-        toast.success("Album created successfully.");
+        toast.success("Зургийн цомгийг амжилттай үүсгэлээ.");
         setSelectedAlbum(null);
         setOpen(false);
       },
@@ -125,12 +125,12 @@ export default function AlbumPage() {
   const handleDelete = (album: AlbumEntity) => {
     const id = extractId(album);
     if (!id) {
-      toast.error("Unable to determine which album to delete.");
+      toast.error("Устгах зургийн цомгийг тодорхойлж чадсангүй.");
       return;
     }
 
     const confirmation = window.confirm(
-      "Are you sure you want to delete this album?"
+      "Энэ зургийн цомгийг устгах уу?"
     );
 
     if (!confirmation) return;
@@ -140,7 +140,7 @@ export default function AlbumPage() {
       { id },
       {
         onSuccess: () => {
-          toast.success("Album deleted successfully.");
+          toast.success("Зургийн цомгийг амжилттай устгалаа.");
           if (extractId(selectedAlbum) === id) {
             setSelectedAlbum(null);
             setOpen(false);
@@ -159,7 +159,10 @@ export default function AlbumPage() {
   return (
     <main className="space-y-6">
       <div className="flex justify-end">
-        <ButtonWithAdornment label="Create album" onClick={handleCreateClick} />
+        <ButtonWithAdornment
+          label="Зургийн цомог нэмэх"
+          onClick={handleCreateClick}
+        />
       </div>
       <AlbumList
         albums={albums}

@@ -137,15 +137,15 @@ export default function AlbumDialog({
         <form className="space-y-6" onSubmit={handleSubmit}>
           <DialogHeader className="pb-2 text-left">
             <DialogTitle className="text-lg font-semibold">
-              {mode === "edit" ? "Update album" : "Create album"}
+              {mode === "edit" ? "Зургийн цомгийг засах" : "Зургийн цомог нэмэх"}
             </DialogTitle>
           </DialogHeader>
 
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Title</label>
+              <label className="text-sm font-medium text-gray-700">Гарчиг</label>
               <Input
-                placeholder="Summer Memories"
+                placeholder="Зуны дурсамжууд"
                 value={formValues.title}
                 onChange={(event) =>
                   handleFieldChange("title", event.target.value)
@@ -155,7 +155,7 @@ export default function AlbumDialog({
               />
             </div>
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Year</label>
+              <label className="text-sm font-medium text-gray-700">Он</label>
               <Input
                 type="date"
                 value={formValues.year}
@@ -167,11 +167,11 @@ export default function AlbumDialog({
             </div>
             <div className="grid gap-2">
               <label className="text-sm font-medium text-gray-700">
-                Description
+                Тайлбар
               </label>
               <Textarea
                 rows={4}
-                placeholder="A collection of unforgettable moments."
+                placeholder="Мартагдашгүй мөчүүдийн түүвэр."
                 value={formValues.description}
                 onChange={(event) =>
                   handleFieldChange("description", event.target.value)
@@ -186,7 +186,7 @@ export default function AlbumDialog({
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-base font-semibold text-gray-900">
-                Album entries
+                Цомгийн бичлэгүүд
               </h3>
               <Button
                 type="button"
@@ -195,14 +195,14 @@ export default function AlbumDialog({
                 onClick={handleAddAlbumItem}
                 disabled={isSubmitting}
               >
-                <Plus className="mr-2 h-4 w-4" /> Add entry
+                <Plus className="mr-2 h-4 w-4" /> Бичлэг нэмэх
               </Button>
             </div>
 
             {formValues.albums.length === 0 ? (
               <p className="text-sm text-gray-500">
-                No entries yet. Use the &quot;Add entry&quot; button to include photos
-                or events in this album.
+                Одоогоор бичлэг алга. &ldquo;Бичлэг нэмэх&rdquo; товчийг ашиглан зураг,
+                үйл явдлаа бүртгээрэй.
               </p>
             ) : (
               <div className="space-y-4">
@@ -214,10 +214,10 @@ export default function AlbumDialog({
                     <div className="flex flex-col gap-4 md:grid md:grid-cols-2">
                       <div className="grid gap-2">
                         <label className="text-sm font-medium text-gray-700">
-                          Name
+                          Нэр
                         </label>
                         <Input
-                          placeholder="Sunset at the beach"
+                          placeholder="Далайн эргийн наран жаргал"
                           value={album.name}
                           onChange={(event) =>
                             handleAlbumItemChange(
@@ -231,10 +231,10 @@ export default function AlbumDialog({
                       </div>
                       <div className="grid gap-2">
                         <label className="text-sm font-medium text-gray-700">
-                          Location
+                          Байршил
                         </label>
                         <Input
-                          placeholder="Santa Monica, CA"
+                          placeholder="Санта Моника, АНУ"
                           value={album.location}
                           onChange={(event) =>
                             handleAlbumItemChange(
@@ -248,7 +248,7 @@ export default function AlbumDialog({
                       </div>
                       <div className="grid gap-2">
                         <label className="text-sm font-medium text-gray-700">
-                          Date
+                          Огноо
                         </label>
                         <Input
                           type="date"
@@ -265,7 +265,7 @@ export default function AlbumDialog({
                       </div>
                       <div className="grid gap-2">
                         <label className="text-sm font-medium text-gray-700">
-                          Cover image URL
+                          Хавтасны зургийн холбоос
                         </label>
                         <Input
                           placeholder="https://example.com/cover.jpg"
@@ -289,7 +289,7 @@ export default function AlbumDialog({
                         onClick={() => handleRemoveAlbumItem(index)}
                         disabled={isSubmitting}
                       >
-                        <Trash2 className="mr-2 h-4 w-4" /> Remove entry
+                        <Trash2 className="mr-2 h-4 w-4" /> Бичлэг устгах
                       </Button>
                     </div>
                   </div>
@@ -305,16 +305,16 @@ export default function AlbumDialog({
               onClick={() => onOpenChange(false)}
               disabled={isSubmitting}
             >
-              Cancel
+              Цуцлах
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting
                 ? mode === "edit"
-                  ? "Updating..."
-                  : "Creating..."
+                  ? "Шинэчилж байна..."
+                  : "Үүсгэж байна..."
                 : mode === "edit"
-                ? "Save changes"
-                : "Create album"}
+                ? "Өөрчлөлтийг хадгалах"
+                : "Цомог үүсгэх"}
             </Button>
           </DialogFooter>
         </form>

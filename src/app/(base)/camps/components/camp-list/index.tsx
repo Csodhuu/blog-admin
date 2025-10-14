@@ -61,8 +61,8 @@ export default function CampList({
   if (!isLoading && camps.length === 0) {
     return (
       <Card className="p-6 text-sm text-gray-500 shadow-2xl">
-        You haven&apos;t created any camps yet. Click the &quot;Create camp&quot; button to
-        get started.
+        Одоогоор зуслангийн мэдээлэл байхгүй байна. &ldquo;Зуслан нэмэх&rdquo; товчийг
+        ашиглан шинэчлээрэй.
       </Card>
     );
   }
@@ -85,7 +85,7 @@ export default function CampList({
               <div className="space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <h3 className="text-xl font-semibold text-gray-900">
-                    {camp.title || "Untitled camp"}
+                    {camp.title || "Гарчиггүй зуслан"}
                   </h3>
                   {camp.sport && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700">
@@ -111,7 +111,7 @@ export default function CampList({
                 )}
                 {camp.image && (
                   <p className="text-xs text-gray-500">
-                    Image:{' '}
+                    Зураг:{' '}
                     <a
                       href={camp.image}
                       target="_blank"
@@ -130,7 +130,7 @@ export default function CampList({
                   size="sm"
                   onClick={() => onEdit(camp)}
                 >
-                  <Edit className="mr-2 h-4 w-4" /> Edit
+                  <Edit className="mr-2 h-4 w-4" /> Засах
                 </Button>
                 <Button
                   variant="destructive"
@@ -139,7 +139,7 @@ export default function CampList({
                   disabled={isCampDeleting}
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
-                  {isCampDeleting ? "Deleting..." : "Delete"}
+                  {isCampDeleting ? "Устгаж байна..." : "Устгах"}
                 </Button>
               </div>
             </div>

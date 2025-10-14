@@ -32,21 +32,21 @@ export default function MainSidebar() {
   const baseMenuItems = [
     {
       id: "/",
-      label: "Admin хэрэглэгч ",
+      label: "Админ хэрэглэгчид",
       icon: UserStar,
       href: "/admin-user",
     },
-    { id: "/about", label: "About", icon: BookImage, href: "/about" },
-    { id: "/album", label: "Album", icon: BookImage, href: "/album" },
-    { id: "/camps", label: "Camps", icon: TentTree, href: "/camps" },
+    { id: "/about", label: "Танилцуулга", icon: BookImage, href: "/about" },
+    { id: "/album", label: "Зургийн цомог", icon: BookImage, href: "/album" },
+    { id: "/camps", label: "Зуслангууд", icon: TentTree, href: "/camps" },
     {
       id: "/competitions",
-      label: "competitions",
+      label: "Тэмцээнүүд",
       icon: Medal,
       href: "/competitions",
     },
-    { id: "/travel", label: "travel", icon: PlaneTakeoff, href: "/travel" },
-    { id: "/contact", label: "contact", icon: FileUser, href: "/contact" },
+    { id: "/travel", label: "Аялал", icon: PlaneTakeoff, href: "/travel" },
+    { id: "/contact", label: "Холбоо барих", icon: FileUser, href: "/contact" },
   ];
 
   const isActive = (href?: string) =>
@@ -61,7 +61,7 @@ export default function MainSidebar() {
           className="flex items-center justify-center h-full"
         >
           <div className="h-8 px-2 rounded-md bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold mr-2">
-            Blog web admin
+            Блог админ самбар
           </div>
         </Link>
         <MobileCloseButton />

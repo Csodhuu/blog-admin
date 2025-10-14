@@ -50,7 +50,7 @@ const getErrorMessage = (error: unknown) => {
   return (
     axiosError?.response?.data?.message ||
     axiosError?.message ||
-    "Something went wrong."
+    "Алдаа гарлаа."
   );
 };
 
@@ -89,7 +89,7 @@ export default function TravelPage() {
         { id, payload },
         {
           onSuccess: () => {
-            toast.success("Travel updated successfully.");
+            toast.success("Аяллын мэдээллийг амжилттай шинэчиллээ.");
             setSelectedTravel(null);
             setOpen(false);
           },
@@ -103,7 +103,7 @@ export default function TravelPage() {
 
     createTravel(payload, {
       onSuccess: () => {
-        toast.success("Travel created successfully.");
+        toast.success("Аяллын мэдээллийг амжилттай үүсгэлээ.");
         setSelectedTravel(null);
         setOpen(false);
       },
@@ -121,12 +121,12 @@ export default function TravelPage() {
   const handleDelete = (travel: TravelEntity) => {
     const id = extractId(travel);
     if (!id) {
-      toast.error("Unable to determine which travel experience to delete.");
+      toast.error("Устгах аяллын мэдээллийг тодорхойлж чадсангүй.");
       return;
     }
 
     const confirmation = window.confirm(
-      "Are you sure you want to delete this travel experience?"
+      "Энэ аяллын мэдээллийг устгах уу?"
     );
 
     if (!confirmation) return;
@@ -136,7 +136,7 @@ export default function TravelPage() {
       { id },
       {
         onSuccess: () => {
-          toast.success("Travel deleted successfully.");
+          toast.success("Аяллын мэдээллийг амжилттай устгалаа.");
           if (extractId(selectedTravel) === id) {
             setSelectedTravel(null);
             setOpen(false);
@@ -156,7 +156,7 @@ export default function TravelPage() {
     <main className="space-y-6">
       <div className="flex justify-end">
         <ButtonWithAdornment
-          label="Create travel"
+          label="Аялал нэмэх"
           onClick={handleCreateClick}
           startAdornment={<PlaneTakeoff className="h-4 w-4" />}
         />

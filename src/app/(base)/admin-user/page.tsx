@@ -73,7 +73,7 @@ const getErrorMessage = (error: unknown) => {
   return (
     axiosError?.response?.data?.message ||
     axiosError?.message ||
-    "Something went wrong."
+    "Алдаа гарлаа."
   );
 };
 
@@ -113,7 +113,7 @@ export default function AdminPage() {
         { id, payload },
         {
           onSuccess: () => {
-            toast.success("Admin user updated successfully.");
+            toast.success("Админ хэрэглэгчийг амжилттай шинэчиллээ.");
             setSelectedAdminUser(null);
             setOpen(false);
           },
@@ -127,13 +127,13 @@ export default function AdminPage() {
 
     const payload = sanitizeCreatePayload(values);
     if (!payload.password) {
-      toast.error("Password is required.");
+      toast.error("Нууц үг шаардлагатай.");
       return;
     }
 
     createAdminUser(payload, {
       onSuccess: () => {
-        toast.success("Admin user created successfully.");
+        toast.success("Админ хэрэглэгчийг амжилттай үүсгэлээ.");
         setSelectedAdminUser(null);
         setOpen(false);
       },
@@ -151,12 +151,12 @@ export default function AdminPage() {
   const handleDelete = (adminUser: AdminUserEntity) => {
     const id = extractId(adminUser);
     if (!id) {
-      toast.error("Unable to determine which admin user to delete.");
+      toast.error("Устгах админ хэрэглэгчийг тодорхойлох боломжгүй байна.");
       return;
     }
 
     const confirmation = window.confirm(
-      "Are you sure you want to delete this admin user?"
+      "Энэ админ хэрэглэгчийг устгахдаа итгэлтэй байна уу?"
     );
 
     if (!confirmation) return;
@@ -166,7 +166,7 @@ export default function AdminPage() {
       { id },
       {
         onSuccess: () => {
-          toast.success("Admin user deleted successfully.");
+          toast.success("Админ хэрэглэгчийг амжилттай устгалаа.");
           if (extractId(selectedAdminUser) === id) {
             setSelectedAdminUser(null);
             setOpen(false);
@@ -186,7 +186,7 @@ export default function AdminPage() {
     <main className="space-y-6">
       <div className="flex justify-end">
         <ButtonWithAdornment
-          label="Create admin user"
+          label="Админ хэрэглэгч нэмэх"
           onClick={handleCreateClick}
           startAdornment={<UserPlus className="h-4 w-4" />}
         />

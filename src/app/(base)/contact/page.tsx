@@ -67,7 +67,7 @@ const getErrorMessage = (error: unknown) => {
   return (
     axiosError?.response?.data?.message ||
     axiosError?.message ||
-    "Something went wrong."
+    "Алдаа гарлаа."
   );
 };
 
@@ -108,7 +108,7 @@ export default function ContactPage() {
         { id, payload },
         {
           onSuccess: () => {
-            toast.success("Contact updated successfully.");
+            toast.success("Холбоо барих мэдээллийг амжилттай шинэчиллээ.");
             setSelectedContact(null);
             setOpen(false);
           },
@@ -122,7 +122,7 @@ export default function ContactPage() {
 
     createContact(payload, {
       onSuccess: () => {
-        toast.success("Contact created successfully.");
+        toast.success("Холбоо барих мэдээллийг амжилттай үүсгэлээ.");
         setSelectedContact(null);
         setOpen(false);
       },
@@ -140,12 +140,12 @@ export default function ContactPage() {
   const handleDelete = (contact: ContactEntity) => {
     const id = extractId(contact);
     if (!id) {
-      toast.error("Unable to determine which contact to delete.");
+      toast.error("Устгах холбоо барих мэдээллийг тодорхойлж чадсангүй.");
       return;
     }
 
     const confirmation = window.confirm(
-      "Are you sure you want to delete this contact?"
+      "Энэ холбоо барих мэдээллийг устгах уу?"
     );
 
     if (!confirmation) return;
@@ -155,7 +155,7 @@ export default function ContactPage() {
       { id },
       {
         onSuccess: () => {
-          toast.success("Contact deleted successfully.");
+          toast.success("Холбоо барих мэдээллийг амжилттай устгалаа.");
           if (extractId(selectedContact) === id) {
             setSelectedContact(null);
             setOpen(false);
@@ -175,7 +175,7 @@ export default function ContactPage() {
     <main className="space-y-6">
       <div className="flex justify-end">
         <ButtonWithAdornment
-          label="Create contact"
+          label="Холбоо барих мэдээлэл нэмэх"
           onClick={handleCreateClick}
           startAdornment={<Plus className="h-4 w-4" />}
         />
