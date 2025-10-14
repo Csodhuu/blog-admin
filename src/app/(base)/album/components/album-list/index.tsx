@@ -62,8 +62,8 @@ export default function AlbumList({
   if (!isLoading && albums.length === 0) {
     return (
       <Card className="p-6 text-sm text-gray-500 shadow-2xl">
-        You haven&apos;t created any albums yet. Click the &quot;Create album&quot;
-        button to get started.
+        Одоогоор зургийн цомог байхгүй байна. &ldquo;Зургийн цомог нэмэх&rdquo;
+        товчийг ашиглан шинээр үүсгэнэ үү.
       </Card>
     );
   }
@@ -86,7 +86,7 @@ export default function AlbumList({
               <div className="space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <h3 className="text-xl font-semibold text-gray-900">
-                    {album.title || "Untitled album"}
+                    {album.title || "Гарчиггүй цомог"}
                   </h3>
                   {album.year && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700">
@@ -106,7 +106,7 @@ export default function AlbumList({
                   size="sm"
                   onClick={() => onEdit(album)}
                 >
-                  <Edit className="mr-2 h-4 w-4" /> Edit
+                  <Edit className="mr-2 h-4 w-4" /> Засах
                 </Button>
                 <Button
                   variant="destructive"
@@ -115,7 +115,7 @@ export default function AlbumList({
                   disabled={isAlbumDeleting}
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
-                  {isAlbumDeleting ? "Deleting..." : "Delete"}
+                  {isAlbumDeleting ? "Устгаж байна..." : "Устгах"}
                 </Button>
               </div>
             </div>
@@ -132,7 +132,7 @@ export default function AlbumList({
                       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                         <div>
                           <p className="text-sm font-medium text-gray-900">
-                            {item?.name || `Entry ${index + 1}`}
+                            {item?.name || `Бичлэг ${index + 1}`}
                           </p>
                           {item?.location && (
                             <p className="flex items-center gap-1 text-xs text-gray-600">
@@ -147,7 +147,7 @@ export default function AlbumList({
                       </div>
                       {item?.cover && (
                         <p className="mt-2 break-words text-xs text-gray-500">
-                          Cover: {item.cover}
+                          Хавтасны зураг: {item.cover}
                         </p>
                       )}
                     </div>

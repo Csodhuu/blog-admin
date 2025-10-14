@@ -91,15 +91,15 @@ export default function CampDialog({
         <form className="space-y-6" onSubmit={handleSubmit}>
           <DialogHeader className="pb-2 text-left">
             <DialogTitle className="text-lg font-semibold">
-              {mode === "edit" ? "Update camp" : "Create camp"}
+              {mode === "edit" ? "Зуслангийн мэдээлэл засах" : "Зуслан нэмэх"}
             </DialogTitle>
           </DialogHeader>
 
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Title</label>
+              <label className="text-sm font-medium text-gray-700">Гарчиг</label>
               <Input
-                placeholder="Elite Summer Camp"
+                placeholder="Зуны элит зуслан"
                 value={formValues.title}
                 onChange={(event) =>
                   handleFieldChange("title", event.target.value)
@@ -110,9 +110,9 @@ export default function CampDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Sport</label>
+              <label className="text-sm font-medium text-gray-700">Спортын төрөл</label>
               <Input
-                placeholder="Basketball"
+                placeholder="Сагсан бөмбөг"
                 value={formValues.sport}
                 onChange={(event) =>
                   handleFieldChange("sport", event.target.value)
@@ -123,7 +123,7 @@ export default function CampDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Date</label>
+              <label className="text-sm font-medium text-gray-700">Огноо</label>
               <Input
                 type="date"
                 value={formValues.date}
@@ -135,9 +135,9 @@ export default function CampDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Location</label>
+              <label className="text-sm font-medium text-gray-700">Байршил</label>
               <Input
-                placeholder="Los Angeles, CA"
+                placeholder="Лос Анжелес, АНУ"
                 value={formValues.location}
                 onChange={(event) =>
                   handleFieldChange("location", event.target.value)
@@ -149,11 +149,11 @@ export default function CampDialog({
 
             <div className="grid gap-2">
               <label className="text-sm font-medium text-gray-700">
-                Description
+                Тайлбар
               </label>
               <Textarea
                 rows={4}
-                placeholder="Tell participants what makes this camp special."
+                placeholder="Энэ зуслангийн онцлог давуу талыг танилцуулна уу."
                 value={formValues.description}
                 onChange={(event) =>
                   handleFieldChange("description", event.target.value)
@@ -163,7 +163,7 @@ export default function CampDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Image</label>
+              <label className="text-sm font-medium text-gray-700">Зургийн холбоос</label>
               <Input
                 placeholder="https://example.com/camp.jpg"
                 value={formValues.image}
@@ -182,10 +182,14 @@ export default function CampDialog({
               onClick={() => onOpenChange(false)}
               disabled={isSubmitting}
             >
-              Cancel
+              Цуцлах
             </Button>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Saving..." : mode === "edit" ? "Update" : "Create"}
+              {isSubmitting
+                ? "Хадгалж байна..."
+                : mode === "edit"
+                ? "Шинэчлэх"
+                : "Үүсгэх"}
             </Button>
           </DialogFooter>
         </form>

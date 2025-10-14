@@ -120,18 +120,20 @@ export default function ContactDialog({
         <form className="space-y-6" onSubmit={handleSubmit}>
           <DialogHeader className="pb-2 text-left">
             <DialogTitle className="text-lg font-semibold">
-              {mode === "edit" ? "Update contact" : "Create contact"}
+              {mode === "edit"
+                ? "Холбоо барих мэдээлэл засах"
+                : "Холбоо барих мэдээлэл нэмэх"}
             </DialogTitle>
           </DialogHeader>
 
           <div className="grid gap-4">
             <div className="grid gap-2">
               <label className="text-sm font-medium text-gray-700">
-                Address
+                Хаяг
               </label>
               <Textarea
                 rows={3}
-                placeholder="1234 Elm Street, Springfield, USA"
+                placeholder="Улаанбаатар хот, Сүхбаатар дүүрэг, 1-р хороо..."
                 value={formValues.address}
                 onChange={(event) =>
                   handleFieldChange("address", event.target.value)
@@ -141,9 +143,9 @@ export default function ContactDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Phone</label>
+              <label className="text-sm font-medium text-gray-700">Утас</label>
               <Input
-                placeholder="(+1) 555-1234"
+                placeholder="(+976) 9999-0000"
                 value={formValues.phone}
                 onChange={(event) =>
                   handleFieldChange("phone", event.target.value)
@@ -153,7 +155,7 @@ export default function ContactDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Email</label>
+              <label className="text-sm font-medium text-gray-700">И-мэйл</label>
               <Input
                 type="email"
                 placeholder="hello@example.com"
@@ -166,7 +168,7 @@ export default function ContactDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Map photo</label>
+              <label className="text-sm font-medium text-gray-700">Газрын зураг</label>
               <Input
                 placeholder="https://maps.example.com/snapshot.jpg"
                 value={formValues.mapPhoto}
@@ -179,12 +181,13 @@ export default function ContactDialog({
 
             <div className="grid gap-2">
               <label className="text-sm font-medium text-gray-700">
-                Social links
+                Нийгмийн сувгийн холбоосууд
               </label>
               <div className="space-y-3">
                 {formValues.socialLinks.length === 0 && (
                   <p className="text-sm text-gray-500">
-                    No social links added yet. Use the button below to add one.
+                    Одоогоор нийгмийн сувгийн холбоос нэмэгдээгүй байна. Доорх
+                    товчоор нэмнэ үү.
                   </p>
                 )}
                 {formValues.socialLinks.map((link, index) => (
@@ -193,7 +196,7 @@ export default function ContactDialog({
                     className="grid gap-3 rounded-md border border-dashed border-gray-200 p-3 sm:grid-cols-[1fr_1fr_auto] sm:items-center"
                   >
                     <Input
-                      placeholder="Platform name"
+                      placeholder="Платформын нэр"
                       value={link.label}
                       onChange={(event) =>
                         handleSocialLinkChange(
@@ -223,7 +226,7 @@ export default function ContactDialog({
                       onClick={() => handleRemoveSocialLink(index)}
                       disabled={isSubmitting}
                     >
-                      Remove
+                      Арилгах
                     </Button>
                   </div>
                 ))}
@@ -235,7 +238,7 @@ export default function ContactDialog({
                 onClick={handleAddSocialLink}
                 disabled={isSubmitting}
               >
-                Add social link
+                Холбоос нэмэх
               </Button>
             </div>
           </div>
@@ -247,14 +250,14 @@ export default function ContactDialog({
               onClick={() => onOpenChange(false)}
               disabled={isSubmitting}
             >
-              Cancel
+              Цуцлах
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting
-                ? "Saving..."
+                ? "Хадгалж байна..."
                 : mode === "edit"
-                  ? "Save changes"
-                  : "Create contact"}
+                  ? "Өөрчлөлтийг хадгалах"
+                  : "Мэдээлэл үүсгэх"}
             </Button>
           </DialogFooter>
         </form>

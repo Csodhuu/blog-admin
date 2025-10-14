@@ -43,9 +43,9 @@ const formatDate = (value?: string | null) => {
 const getTypeLabel = (type?: CompetitionType | null) => {
   switch (type) {
     case "upcomingEvents":
-      return "Upcoming";
+      return "Удахгүй";
     case "pastEvents":
-      return "Past";
+      return "Өнгөрсөн";
     default:
       return null;
   }
@@ -80,8 +80,8 @@ export default function CompetitionList({
   if (!isLoading && competitions.length === 0) {
     return (
       <Card className="p-6 text-sm text-gray-500 shadow-2xl">
-        You haven&apos;t created any competitions yet. Click the &quot;Create
-        competition&quot; button to get started.
+        Одоогоор тэмцээний мэдээлэл нэмэгдээгүй байна. &ldquo;Тэмцээн нэмэх&rdquo;
+        товчийг дарж эхлээрэй.
       </Card>
     );
   }
@@ -105,7 +105,7 @@ export default function CompetitionList({
               <div className="space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <h3 className="text-xl font-semibold text-gray-900">
-                    {competition.title || "Untitled competition"}
+                    {competition.title || "Гарчиггүй тэмцээн"}
                   </h3>
                   {competition.sport && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700">
@@ -137,7 +137,7 @@ export default function CompetitionList({
                 )}
                 {competition.image && (
                   <p className="text-xs text-gray-500">
-                    Image:{" "}
+                    Зураг:{" "}
                     <a
                       href={competition.image}
                       target="_blank"
@@ -156,7 +156,7 @@ export default function CompetitionList({
                   size="sm"
                   onClick={() => onEdit(competition)}
                 >
-                  <Edit className="mr-2 h-4 w-4" /> Edit
+                  <Edit className="mr-2 h-4 w-4" /> Засах
                 </Button>
                 <Button
                   variant="destructive"
@@ -165,7 +165,7 @@ export default function CompetitionList({
                   disabled={isCompetitionDeleting}
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
-                  {isCompetitionDeleting ? "Deleting..." : "Delete"}
+                  {isCompetitionDeleting ? "Устгаж байна..." : "Устгах"}
                 </Button>
               </div>
             </div>

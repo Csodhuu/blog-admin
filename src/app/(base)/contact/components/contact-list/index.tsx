@@ -50,8 +50,8 @@ export default function ContactList({
   if (!isLoading && contacts.length === 0) {
     return (
       <Card className="p-6 text-sm text-gray-500 shadow-2xl">
-        You haven&apos;t added any contact information yet. Click the
-        &quot;Create contact&quot; button to get started.
+        Одоогоор холбоо барих мэдээлэл нэмэгдээгүй байна. &ldquo;Холбоо барих мэдээлэл
+        нэмэх&rdquo; товчийг дарж эхлээрэй.
       </Card>
     );
   }
@@ -109,7 +109,7 @@ export default function ContactList({
                       rel="noreferrer"
                       className="break-all text-primary underline"
                     >
-                      View map photo
+                      Газрын зураг харах
                     </a>
                   </p>
                 )}
@@ -119,7 +119,7 @@ export default function ContactList({
                     <div className="space-y-2">
                       <p className="flex items-center gap-2 text-sm font-medium text-gray-700">
                         <Link2 className="h-4 w-4 text-gray-500" />
-                        Social links
+                        Нийгмийн сувгууд
                       </p>
                       <ul className="space-y-1 text-sm text-gray-600">
                         {contact.socialLinks.map((link, index) => {
@@ -134,7 +134,7 @@ export default function ContactList({
                           return (
                             <li key={key} className="flex flex-col gap-0.5">
                               <span className="font-medium text-gray-700">
-                                {displayLabel || "Link"}
+                                {displayLabel || "Холбоос"}
                               </span>
                               {displayHref ? (
                                 <a
@@ -160,7 +160,7 @@ export default function ContactList({
                   size="sm"
                   onClick={() => onEdit(contact)}
                 >
-                  <Edit className="mr-2 h-4 w-4" /> Edit
+                  <Edit className="mr-2 h-4 w-4" /> Засах
                 </Button>
                 <Button
                   variant="destructive"
@@ -169,7 +169,7 @@ export default function ContactList({
                   disabled={isContactDeleting}
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
-                  {isContactDeleting ? "Deleting..." : "Delete"}
+                  {isContactDeleting ? "Устгаж байна..." : "Устгах"}
                 </Button>
               </div>
             </div>

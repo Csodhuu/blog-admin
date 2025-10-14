@@ -7,13 +7,13 @@ import AuthSessionProvider from "@/components/auth/session-provider";
 import WithAuthClient from "@/components/with-auth/with-auth";
 
 export const metadata: Metadata = {
-  title: "ERP-Frontend",
-  description: "Your app description",
+  title: "Блог админ самбар",
+  description: "Блогийн агуулга, хэрэглэгчийг удирдах самбар",
 };
 
 export default function Root({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="light" style={{ colorScheme: "light" }}>
+    <html lang="mn" className="light" style={{ colorScheme: "light" }}>
       <head />
       <body>
         <WithAuthClient>

@@ -63,7 +63,7 @@ const getErrorMessage = (error: unknown) => {
   return (
     axiosError?.response?.data?.message ||
     axiosError?.message ||
-    "Something went wrong."
+    "Алдаа гарлаа."
   );
 };
 
@@ -106,7 +106,7 @@ export default function CompetitionPage() {
         { id, payload },
         {
           onSuccess: () => {
-            toast.success("Competition updated successfully.");
+            toast.success("Тэмцээний мэдээллийг амжилттай шинэчиллээ.");
             setSelectedCompetition(null);
             setOpen(false);
           },
@@ -120,7 +120,7 @@ export default function CompetitionPage() {
 
     createCompetition(payload, {
       onSuccess: () => {
-        toast.success("Competition created successfully.");
+        toast.success("Тэмцээний мэдээллийг амжилттай үүсгэлээ.");
         setSelectedCompetition(null);
         setOpen(false);
       },
@@ -138,12 +138,12 @@ export default function CompetitionPage() {
   const handleDelete = (competition: CompetitionEntity) => {
     const id = extractId(competition);
     if (!id) {
-      toast.error("Unable to determine which competition to delete.");
+      toast.error("Устгах тэмцээний мэдээллийг тодорхойлж чадсангүй.");
       return;
     }
 
     const confirmation = window.confirm(
-      "Are you sure you want to delete this competition?"
+      "Энэ тэмцээний мэдээллийг устгах уу?"
     );
 
     if (!confirmation) return;
@@ -153,7 +153,7 @@ export default function CompetitionPage() {
       { id },
       {
         onSuccess: () => {
-          toast.success("Competition deleted successfully.");
+          toast.success("Тэмцээний мэдээллийг амжилттай устгалаа.");
           if (extractId(selectedCompetition) === id) {
             setSelectedCompetition(null);
             setOpen(false);
@@ -173,7 +173,7 @@ export default function CompetitionPage() {
     <main className="space-y-6">
       <div className="flex justify-end">
         <ButtonWithAdornment
-          label="Create competition"
+          label="Тэмцээн нэмэх"
           onClick={handleCreateClick}
           startAdornment={<Medal className="h-4 w-4" />}
         />
