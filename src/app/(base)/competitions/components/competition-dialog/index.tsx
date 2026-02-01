@@ -69,6 +69,7 @@ export default function CompetitionDialog({
       description: initialValues.description ?? "",
       image: initialValues.image ?? "",
       type: initialValues.type ?? "upcomingEvents",
+      link: initialValues.link ?? "",
     };
   }, [initialValues]);
 
@@ -134,7 +135,9 @@ export default function CompetitionDialog({
 
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Гарчиг</label>
+              <label className="text-sm font-medium text-gray-700">
+                Гарчиг
+              </label>
               <Input
                 placeholder="Элит аваргын финал"
                 value={formValues.title}
@@ -147,7 +150,9 @@ export default function CompetitionDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Спортын төрөл</label>
+              <label className="text-sm font-medium text-gray-700">
+                Спортын төрөл
+              </label>
               <Input
                 placeholder="Сагсан бөмбөг"
                 value={formValues.sport}
@@ -172,7 +177,23 @@ export default function CompetitionDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Байршил</label>
+              <label className="text-sm font-medium text-gray-700">
+                PDF liink
+              </label>
+              <Input
+                type="text"
+                value={formValues.link}
+                onChange={(event) =>
+                  handleFieldChange("link", event.target.value)
+                }
+                disabled={isSubmitting}
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <label className="text-sm font-medium text-gray-700">
+                Байршил
+              </label>
               <Input
                 placeholder="Лос Анжелес, АНУ"
                 value={formValues.location}
@@ -185,9 +206,11 @@ export default function CompetitionDialog({
             </div>
 
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Тайлбар</label>
+              <label className="text-sm font-medium text-gray-700">
+                Тайлбар
+              </label>
               <Textarea
-                rows={4}
+                rows={2}
                 placeholder="Тэмцээний гол мэдээллийг бичнэ үү."
                 value={formValues.description}
                 onChange={(event) =>
@@ -240,7 +263,10 @@ export default function CompetitionDialog({
                 )}
                 value={formValues.type}
                 onChange={(event) =>
-                  handleFieldChange("type", event.target.value as CompetitionType)
+                  handleFieldChange(
+                    "type",
+                    event.target.value as CompetitionType
+                  )
                 }
                 disabled={isSubmitting}
               >
@@ -266,8 +292,8 @@ export default function CompetitionDialog({
               {isSubmitting
                 ? "Хадгалж байна..."
                 : mode === "edit"
-                  ? "Шинэчлэх"
-                  : "Үүсгэх"}
+                ? "Шинэчлэх"
+                : "Үүсгэх"}
             </Button>
           </DialogFooter>
         </form>

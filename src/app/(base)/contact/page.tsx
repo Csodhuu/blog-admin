@@ -174,12 +174,13 @@ export default function ContactPage() {
   return (
     <main className="space-y-6">
       <div className="flex justify-end">
-        <ButtonWithAdornment
+        {/* <ButtonWithAdornment
           label="Холбоо барих мэдээлэл нэмэх"
           onClick={handleCreateClick}
           startAdornment={<Plus className="h-4 w-4" />}
-        />
+        /> */}
       </div>
+      <p>Холбоо барих мэдээлэл явуулсан мэдээлэл</p>
       <ContactList
         contacts={contacts}
         isLoading={isLoading}

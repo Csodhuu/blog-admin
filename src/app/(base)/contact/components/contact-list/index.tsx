@@ -1,7 +1,15 @@
 "use client";
 
 import { useMemo } from "react";
-import { Image as ImageIcon, Link2, Mail, MapPin, Phone, Edit, Trash2 } from "lucide-react";
+import {
+  Image as ImageIcon,
+  Link2,
+  Mail,
+  MapPin,
+  Phone,
+  Edit,
+  Trash2,
+} from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -50,8 +58,8 @@ export default function ContactList({
   if (!isLoading && contacts.length === 0) {
     return (
       <Card className="p-6 text-sm text-gray-500 shadow-2xl">
-        Одоогоор холбоо барих мэдээлэл нэмэгдээгүй байна. &ldquo;Холбоо барих мэдээлэл
-        нэмэх&rdquo; товчийг дарж эхлээрэй.
+        Одоогоор холбоо барих мэдээлэл нэмэгдээгүй байна. &ldquo;Холбоо барих
+        мэдээлэл нэмэх&rdquo; товчийг дарж эхлээрэй.
       </Card>
     );
   }

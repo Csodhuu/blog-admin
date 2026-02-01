@@ -56,6 +56,7 @@ const sanitizePayload = (values: CompetitionPayload): CompetitionPayload => ({
   description: values.description.trim(),
   image: values.image.trim(),
   type: normalizeCompetitionType(values.type),
+  link: values.link.trim(),
 });
 
 const getErrorMessage = (error: unknown) => {
@@ -142,9 +143,7 @@ export default function CompetitionPage() {
       return;
     }
 
-    const confirmation = window.confirm(
-      "Энэ тэмцээний мэдээллийг устгах уу?"
-    );
+    const confirmation = window.confirm("Энэ тэмцээний мэдээллийг устгах уу?");
 
     if (!confirmation) return;
 

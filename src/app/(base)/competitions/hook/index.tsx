@@ -4,7 +4,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { CompetitionEntity, CompetitionPayload } from "../model";
 
-export type CompetitionListResponse = { data: CompetitionEntity[] } | CompetitionEntity[];
+export type CompetitionListResponse =
+  | { data: CompetitionEntity[] }
+  | CompetitionEntity[];
 
 export const useGetCompetitions = () => {
   return useQuery<CompetitionListResponse>({

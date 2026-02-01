@@ -8,6 +8,7 @@ export type CompetitionPayload = {
   description: string;
   image: string;
   type: CompetitionType;
+  link: string;
 };
 
 export type CompetitionEntity = CompetitionPayload & {
@@ -25,4 +26,5 @@ export const createEmptyCompetitionPayload = (): CompetitionPayload => ({
   description: "",
   image: "",
   type: "upcomingEvents",
+  link: "",
 });

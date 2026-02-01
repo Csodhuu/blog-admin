@@ -37,6 +37,12 @@ export default function MainSidebar() {
       href: "/admin-user",
     },
     { id: "/about", label: "Танилцуулга", icon: BookImage, href: "/about" },
+    {
+      id: "/partner",
+      label: "Хамтрагч байгууллага",
+      icon: BookImage,
+      href: "/partner",
+    },
     { id: "/album", label: "Зургийн цомог", icon: BookImage, href: "/album" },
     { id: "/camps", label: "Зуслангууд", icon: TentTree, href: "/camps" },
     {
