@@ -2,10 +2,8 @@ import axios from "axios";
 
 import { getCookie } from "cookies-next";
 
-export const BASEURL = "https://blog-web-backend-sand.vercel.app//api/";
-
 export const service = axios.create({
-  baseURL: "https://blog-web-backend-sand.vercel.app/api/",
+  baseURL: "https://backend.gatewaysportstravel.mn/api",
 });
 
 const isAuthRoute = (pathname: string) =>
