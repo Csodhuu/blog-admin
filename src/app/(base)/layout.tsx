@@ -3,7 +3,6 @@ import Header from "@/components/layout/header";
 import MainSidebar from "@/components/layout/sidebar-layout";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import WithAuthClient from "@/components/with-auth/with-auth";
 import { ReactNode, Suspense } from "react";
 import { Toaster } from "sonner";
 
@@ -31,10 +30,8 @@ function AppWithMe({ children }: { children: ReactNode }) {
           <div className="flex-1 overflow-auto w-full">
             <Header />
             <div className="max-w-full mx-auto space-y-8 p-4">
-              <WithAuthClient>
-                <Suspense>{children}</Suspense>
-                <Toaster richColors position="top-center" />
-              </WithAuthClient>
+              <Suspense>{children}</Suspense>
+              <Toaster richColors position="top-center" />
             </div>
           </div>
         </div>

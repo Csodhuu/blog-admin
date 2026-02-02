@@ -1,44 +1,30 @@
 import axios from "axios";
 
-import { getCookie } from "cookies-next";
-
 export const service = axios.create({
   baseURL: "https://backend.gatewaysportstravel.mn/api",
-});
-
-const isAuthRoute = (pathname: string) =>
-  pathname === "/" || pathname.startsWith("/login");
-
-service.interceptors.request.use((config) => {
-  const token = typeof window !== "undefined" ? getCookie("accessToken") : null;
-  if (token) {
-    config.headers.Authorization = `${token}`;
-  }
-  return config;
+  withCredentials: true,
 });
 
 service.interceptors.response.use(
-  (res) => {
-    if (
-      res.data?.message === "Unauthorized" &&
-      typeof window !== "undefined" &&
-      !isAuthRoute(window.location.pathname)
-    ) {
-      window.location.href = "/login";
-    }
-    return res;
-  },
+  (res) => res,
   (err) => {
-    const status = err?.response?.status;
+    if (typeof window === "undefined") {
+      return Promise.reject(err);
+    }
 
-    if (
-      typeof window !== "undefined" &&
-      (status === 401 || status === 403) &&
-      !isAuthRoute(window.location.pathname)
-    ) {
-      window.location.href = "/login";
+    const status = err?.response?.status;
+    const pathname = window.location.pathname;
+
+    // 🚫 VERY IMPORTANT: do NOTHING on login/register pages
+    if (pathname.startsWith("/login") || pathname.startsWith("/register")) {
+      return Promise.reject(err);
+    }
+
+    if (status === 401 || status === 403) {
+      const redirect = encodeURIComponent(pathname + window.location.search);
+      window.location.replace(`/login?redirect=${redirect}`);
     }
 
     return Promise.reject(err);
-  }
+  },
 );
