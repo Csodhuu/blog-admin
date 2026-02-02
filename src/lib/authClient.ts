@@ -26,5 +26,5 @@ service.interceptors.response.use(
     }
 
     return Promise.reject(err);
-  },
+  }
 );

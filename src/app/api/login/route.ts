@@ -1,27 +1,41 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  const data = await fetch(
+  const upstream = await fetch(
     "https://backend.gatewaysportstravel.mn/api/admin/login",
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     },
-  ).then((res) => res.json());
+  );
+
+  const data = await upstream.json().catch(() => ({}));
+
+  if (!upstream.ok) {
+    return NextResponse.json(
+      { message: data?.message || "Нэвтрэх явцад алдаа гарлаа." },
+      { status: upstream.status }
+    );
+  }
 
   const accessToken = data.token;
 
   const res = NextResponse.json({ ok: true });
+
+  const host = req.headers.get("host") || "";
+  const cookieDomain = host.endsWith("gatewaysportstravel.mn")
+    ? ".gatewaysportstravel.mn"
+    : undefined;
 
   res.cookies.set("accessToken", accessToken, {
     httpOnly: true,
     secure: false, // REQUIRED on cPanel
     sameSite: "lax",
     path: "/", // 🔴 REQUIRED
-    domain: "admin.gatewaysportstravel.mn", // 🔴 REQUIRED
+    domain: cookieDomain, // 🔴 REQUIRED
     maxAge: 60 * 60 * 12,
   });
 

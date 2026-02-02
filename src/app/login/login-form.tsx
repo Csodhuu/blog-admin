@@ -32,16 +32,6 @@ export default function LoginForm() {
   const handleSuccessfulLogin = async (data: LoginResponse) => {
     setErrorMessage(null);
 
-    await fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: formValues.email,
-        password: formValues.password,
-        remember: formValues.remember,
-      }),
-    });
-
     toast.success("Амжилттай нэвтэрлээ.");
     router.push("/admin-user");
   };

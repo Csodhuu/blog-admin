@@ -1,4 +1,3 @@
-import { service } from "@/lib/authClient";
 import type { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 
@@ -13,9 +12,28 @@ export const useLogin = (options: UseLoginOptions = {}) => {
   return useMutation<LoginResponse, Error, LoginForm>({
     mutationFn: async (input: LoginForm) => {
       try {
-        const res = await service.post<LoginResponse>(`/admin/login`, input);
-        return res.data;
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(input),
+        });
+
+        const data = (await res.json().catch(() => ({}))) as LoginResponse & {
+          message?: string;
+        };
+
+        if (!res.ok) {
+          throw new Error(
+            data?.message || "Нэвтрэх явцад алдаа гарлаа."
+          );
+        }
+
+        return data;
       } catch (error) {
+        if (error instanceof Error) {
+          throw error;
+        }
+
         const axiosError = error as AxiosError<{ message?: string }>;
         const message =
           axiosError.response?.data?.message ||
