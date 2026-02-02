@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { setCookie } from "cookies-next";
 import { toast } from "sonner";
 
 import { useLogin } from "./hook";
@@ -30,37 +29,18 @@ export default function LoginForm() {
     },
   });
 
-  const handleSuccessfulLogin = (data: LoginResponse) => {
+  const handleSuccessfulLogin = async (data: LoginResponse) => {
     setErrorMessage(null);
 
-    const accessToken = extractToken(data, ["accessToken", "token"]);
-    const refreshToken = extractToken(data, ["refreshToken", "refresh_token"]);
-
-    if (accessToken) {
-      const bearerToken = accessToken.startsWith("Bearer ")
-        ? accessToken
-        : `Bearer ${accessToken}`;
-
-      setCookie("accessToken", bearerToken, {
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        path: "/",
-        ...(formValues.remember
-          ? { maxAge: 60 * 60 * 24 * 30 }
-          : { maxAge: 60 * 60 * 12 }),
-      });
-    }
-
-    if (refreshToken) {
-      setCookie("refreshToken", refreshToken, {
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        path: "/",
-        ...(formValues.remember
-          ? { maxAge: 60 * 60 * 24 * 30 }
-          : { maxAge: 60 * 60 * 12 }),
-      });
-    }
+    await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: formValues.email,
+        password: formValues.password,
+        remember: formValues.remember,
+      }),
+    });
 
     toast.success("Амжилттай нэвтэрлээ.");
     router.push("/admin-user");
@@ -187,7 +167,7 @@ export default function LoginForm() {
 
 function extractToken(
   data: LoginResponse,
-  possibleKeys: string[]
+  possibleKeys: string[],
 ): string | null {
   if (!data || typeof data !== "object") {
     return null;
