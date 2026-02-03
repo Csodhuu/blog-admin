@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import type { CampEntity } from "../../model";
+import { ImageURL } from "@/lib/authClient";
 
 interface CampListProps {
   camps: CampEntity[];
@@ -61,8 +62,8 @@ export default function CampList({
   if (!isLoading && camps.length === 0) {
     return (
       <Card className="p-6 text-sm text-gray-500 shadow-2xl">
-        Одоогоор зуслангийн мэдээлэл байхгүй байна. &ldquo;Зуслан нэмэх&rdquo; товчийг
-        ашиглан шинэчлээрэй.
+        Одоогоор зуслангийн мэдээлэл байхгүй байна. &ldquo;Зуслан нэмэх&rdquo;
+        товчийг ашиглан шинэчлээрэй.
       </Card>
     );
   }
@@ -110,17 +111,12 @@ export default function CampList({
                   <p className="text-sm text-gray-600">{camp.description}</p>
                 )}
                 {camp.image && (
-                  <p className="text-xs text-gray-500">
-                    Зураг:{' '}
-                    <a
-                      href={camp.image}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-primary underline"
-                    >
-                      {camp.image}
-                    </a>
-                  </p>
+                  <div className="w-full">
+                    <img
+                      src={ImageURL + camp.image}
+                      className="w-full object-cover"
+                    />
+                  </div>
                 )}
               </div>
 

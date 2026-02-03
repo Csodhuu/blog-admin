@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import type { CompetitionEntity, CompetitionType } from "../../model";
+import { ImageURL } from "@/lib/authClient";
 
 interface CompetitionListProps {
   competitions: CompetitionEntity[];
@@ -80,8 +81,8 @@ export default function CompetitionList({
   if (!isLoading && competitions.length === 0) {
     return (
       <Card className="p-6 text-sm text-gray-500 shadow-2xl">
-        Одоогоор тэмцээний мэдээлэл нэмэгдээгүй байна. &ldquo;Тэмцээн нэмэх&rdquo;
-        товчийг дарж эхлээрэй.
+        Одоогоор тэмцээний мэдээлэл нэмэгдээгүй байна. &ldquo;Тэмцээн
+        нэмэх&rdquo; товчийг дарж эхлээрэй.
       </Card>
     );
   }
@@ -90,7 +91,8 @@ export default function CompetitionList({
     <div className="space-y-4">
       {competitions.map((competition) => {
         const id = extractId(competition);
-        const isActive = id && activeCompetitionId && id === activeCompetitionId;
+        const isActive =
+          id && activeCompetitionId && id === activeCompetitionId;
         const isCompetitionDeleting = Boolean(isDeleting && deletingId === id);
         const typeLabel = getTypeLabel(competition.type);
 
@@ -133,20 +135,17 @@ export default function CompetitionList({
                   </p>
                 )}
                 {competition.description && (
-                  <p className="text-sm text-gray-600">{competition.description}</p>
+                  <p className="text-sm text-gray-600">
+                    {competition.description}
+                  </p>
                 )}
                 {competition.image && (
-                  <p className="text-xs text-gray-500">
-                    Зураг:{" "}
-                    <a
-                      href={competition.image}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-primary underline"
-                    >
-                      {competition.image}
-                    </a>
-                  </p>
+                  <div className="w-full">
+                    <img
+                      src={ImageURL + competition.image}
+                      className="w-full object-cover"
+                    />
+                  </div>
                 )}
               </div>
 

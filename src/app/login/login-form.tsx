@@ -72,12 +72,8 @@ export default function LoginForm() {
         <div className="px-8 py-10">
           <div className="space-y-2 text-center">
             <h1 className="text-3xl font-semibold text-slate-900">
-              Дахин тавтай морил
+              Gateway sports travel ADMIN
             </h1>
-            <p className="text-sm text-slate-500">
-              Блогийн нийтлэл, ноорог болон сайтын тохиргоог удирдахын тулд
-              нэвтэрнэ үү.
-            </p>
           </div>
 
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -112,25 +108,6 @@ export default function LoginForm() {
               </label>
             </div>
 
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 text-slate-600">
-                <input
-                  type="checkbox"
-                  name="remember"
-                  checked={formValues.remember}
-                  onChange={handleChange}
-                  className="h-4 w-4 rounded border-slate-300 text-slate-600 focus:ring-slate-500"
-                />
-                Намайг сана
-              </label>
-              <Link
-                href="#"
-                className="font-medium text-slate-600 transition hover:text-slate-900"
-              >
-                Нууц үг мартсан?
-              </Link>
-            </div>
-
             {errorMessage && (
               <p className="text-sm text-red-500">{errorMessage}</p>
             )}
@@ -143,17 +120,6 @@ export default function LoginForm() {
               {isPending ? "Нэвтэрч байна..." : "Нэвтрэх"}
             </button>
           </form>
-
-          <p className="mt-8 text-center text-sm text-slate-500">
-            Данс байхгүй байна уу?{" "}
-            <Link
-              href="/register"
-              className="font-medium text-slate-600 transition hover:text-slate-900"
-            >
-              Бүртгүүлэх
-            </Link>
-            .
-          </p>
         </div>
       </div>
     </div>
@@ -162,7 +128,7 @@ export default function LoginForm() {
 
 function extractToken(
   data: LoginResponse,
-  possibleKeys: string[],
+  possibleKeys: string[]
 ): string | null {
   if (!data || typeof data !== "object") {
     return null;

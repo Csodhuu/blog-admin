@@ -1,6 +1,8 @@
 import axios from "axios";
 import { getAccessToken } from "@/utils/authToken";
 
+export const ImageURL = "https://backend.gatewaysportstravel.mn/";
+
 export const service = axios.create({
   baseURL: "https://backend.gatewaysportstravel.mn/api",
 });
@@ -14,7 +16,7 @@ service.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error),
+  (error) => Promise.reject(error)
 );
 
 /* ✅ RESPONSE interceptor */
@@ -30,10 +32,10 @@ service.interceptors.response.use(
 
     if (status === 401) {
       window.location.replace(
-        `/login?redirect=${encodeURIComponent(pathname)}`,
+        `/login?redirect=${encodeURIComponent(pathname)}`
       );
     }
 
     return Promise.reject(err);
-  },
+  }
 );

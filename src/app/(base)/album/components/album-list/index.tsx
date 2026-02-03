@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import type { AlbumEntity } from "../../model";
+import { ImageURL } from "@/lib/authClient";
 
 interface AlbumListProps {
   albums: AlbumEntity[];
@@ -146,9 +147,12 @@ export default function AlbumList({
                         </div>
                       </div>
                       {item?.cover && (
-                        <p className="mt-2 break-words text-xs text-gray-500">
-                          Хавтасны зураг: {item.cover}
-                        </p>
+                        <div className="w-full">
+                          <img
+                            src={ImageURL + item?.cover}
+                            className="w-full object-cover"
+                          />
+                        </div>
                       )}
                     </div>
                   ))}

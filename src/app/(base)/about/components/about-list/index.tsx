@@ -17,6 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import type { AboutEntity } from "../../hook";
 import { Separator } from "@radix-ui/react-separator";
+import { ImageURL } from "@/lib/authClient";
 
 interface AboutListProps {
   abouts: AboutEntity[];
@@ -114,7 +115,7 @@ export default function AboutList({
               {about.paragraphImage && (
                 <div className="w-full">
                   <img
-                    src={about.paragraphImage}
+                    src={ImageURL + about.paragraphImage}
                     className="w-full object-cover"
                   />
                 </div>

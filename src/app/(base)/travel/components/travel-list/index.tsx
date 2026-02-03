@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import type { TravelEntity } from "../../model";
+import { ImageURL } from "@/lib/authClient";
 
 interface TravelListProps {
   travels: TravelEntity[];
@@ -61,8 +62,8 @@ export default function TravelList({
   if (!isLoading && travels.length === 0) {
     return (
       <Card className="p-6 text-sm text-gray-500 shadow-2xl">
-        Одоогоор аяллын мэдээлэл нэмэгдээгүй байна. &ldquo;Аялал нэмэх&rdquo; товчийг
-        дарж эхлээрэй.
+        Одоогоор аяллын мэдээлэл нэмэгдээгүй байна. &ldquo;Аялал нэмэх&rdquo;
+        товчийг дарж эхлээрэй.
       </Card>
     );
   }
@@ -104,17 +105,12 @@ export default function TravelList({
                   <p className="text-sm text-gray-600">{travel.description}</p>
                 )}
                 {travel.image && (
-                  <p className="text-xs text-gray-500">
-                    Зураг:{' '}
-                    <a
-                      href={travel.image}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-primary underline"
-                    >
-                      {travel.image}
-                    </a>
-                  </p>
+                  <div className="w-full">
+                    <img
+                      src={ImageURL + travel.image}
+                      className="w-full object-cover"
+                    />
+                  </div>
                 )}
               </div>
 

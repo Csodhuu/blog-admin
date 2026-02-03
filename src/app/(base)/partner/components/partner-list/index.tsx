@@ -1,13 +1,14 @@
 "use client";
 
 import { useMemo } from "react";
-import { Edit, Image, Trash2 } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import type { PartnerEntity } from "../../model";
+import { ImageURL } from "@/lib/authClient";
 
 interface PartnerListProps {
   partners: PartnerEntity[];
@@ -78,7 +79,11 @@ export default function PartnerList({
                 </h3>
                 {partner.image ? (
                   <p className="flex items-center gap-1 text-sm text-gray-600">
-                    <img src={partner.image} alt={partner.name} width={100} />
+                    <img
+                      src={ImageURL + partner.image}
+                      alt={partner.name}
+                      width={100}
+                    />
                   </p>
                 ) : (
                   <p className="text-sm text-gray-500">

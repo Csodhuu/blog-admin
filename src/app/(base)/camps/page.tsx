@@ -126,9 +126,7 @@ export default function CampPage() {
       return;
     }
 
-    const confirmation = window.confirm(
-      "Энэ зуслангийн мэдээллийг устгах уу?"
-    );
+    const confirmation = window.confirm("Энэ зуслангийн мэдээллийг устгах уу?");
 
     if (!confirmation) return;
 
