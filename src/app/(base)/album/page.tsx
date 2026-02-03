@@ -129,9 +129,7 @@ export default function AlbumPage() {
       return;
     }
 
-    const confirmation = window.confirm(
-      "Энэ зургийн цомгийг устгах уу?"
-    );
+    const confirmation = window.confirm("Энэ зургийн цомгийг устгах уу?");
 
     if (!confirmation) return;
 

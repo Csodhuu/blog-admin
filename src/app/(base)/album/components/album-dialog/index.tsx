@@ -367,7 +367,7 @@ export default function AlbumDialog({
             >
               Цуцлах
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting || uploadingIndex !== null}>
               {isSubmitting
                 ? mode === "edit"
                   ? "Шинэчилж байна..."

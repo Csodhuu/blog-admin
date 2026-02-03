@@ -79,11 +79,11 @@ export default function ContactList({
             } p-6 shadow-2xl transition-shadow`}
           >
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-              <div className="space-y-3">
+              <div className="min-w-0 space-y-3">
                 {contact.address && (
                   <p className="flex items-start gap-2 text-sm text-gray-700">
                     <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gray-500" />
-                    <span className="whitespace-pre-line leading-relaxed">
+                    <span className="min-w-0 break-words whitespace-pre-line leading-relaxed">
                       {contact.address}
                     </span>
                   </p>
@@ -92,7 +92,7 @@ export default function ContactList({
                 {contact.phone && (
                   <p className="flex items-center gap-2 text-sm text-gray-700">
                     <Phone className="h-4 w-4 text-gray-500" />
-                    <span>{contact.phone}</span>
+                    <span className="min-w-0 break-words">{contact.phone}</span>
                   </p>
                 )}
 
@@ -101,7 +101,7 @@ export default function ContactList({
                     <Mail className="h-4 w-4 text-gray-500" />
                     <a
                       href={`mailto:${contact.email}`}
-                      className="text-primary underline"
+                      className="min-w-0 break-words text-primary underline"
                     >
                       {contact.email}
                     </a>

@@ -17,6 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import type { AboutEntity } from "../../hook";
 import { Separator } from "@radix-ui/react-separator";
+import { ImageURL } from "@/lib/authClient";
 
 interface AboutListProps {
   abouts: AboutEntity[];
@@ -57,7 +58,7 @@ export default function AboutList({
 
   if (showLoadingState) {
     return (
-      <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 2xl:grid-cols-5">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
         <Card className="p-6 shadow-2xl">
           <div className="space-y-4">
             <Skeleton className="h-4 w-52" />
@@ -79,7 +80,7 @@ export default function AboutList({
   }
 
   return (
-    <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 2xl:grid-cols-5">
+    <div>
       {abouts.map((about) => {
         const id = extractId(about);
         const isActive = id && activeAboutId && id === activeAboutId;
@@ -92,8 +93,8 @@ export default function AboutList({
               isActive ? "border-primary" : "border-transparent"
             } p-3 pt-5 shadow-2xl transition-shadow`}
           >
-            <div className="flex flex-col w-full gap-4  lg:items-start lg:justify-between">
-              <h3 className="text-xl font-semibold text-gray-900">
+            <div className="flex w-full min-w-0 flex-col gap-4 lg:items-start lg:justify-between">
+              <h3 className="text-xl font-semibold text-gray-900 break-words">
                 {about.title || "Гарчиггүй танилцуулга"}
               </h3>
               {about.updatedAt && (
@@ -104,7 +105,7 @@ export default function AboutList({
               )}
 
               {about.content && (
-                <p className="text-sm text-gray-600">
+                <p className="max-h-24 overflow-hidden text-sm leading-relaxed text-gray-600 break-words whitespace-pre-line">
                   {about.content.length > 180
                     ? `${about.content.slice(0, 180)}...`
                     : about.content}
@@ -112,13 +113,12 @@ export default function AboutList({
               )}
 
               {about.paragraphImage && (
-                <div className="w-full">
+                <div className="w-full overflow-hidden rounded-lg border border-gray-100 bg-gray-50">
                   <img
-                    src={
-                      "https://backend.gatewaysportstravel.mn/" +
-                      about.paragraphImage
-                    }
-                    className="w-full object-cover"
+                    src={ImageURL + about.paragraphImage}
+                    alt={about.title || "Танилцуулгын зураг"}
+                    className="h-[400px] w-full object-cover"
+                    loading="lazy"
                   />
                 </div>
               )}

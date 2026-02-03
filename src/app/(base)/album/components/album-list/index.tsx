@@ -1,14 +1,14 @@
 "use client";
 
 import { useMemo } from "react";
-import { CalendarDays, Edit, MapPin, Trash2 } from "lucide-react";
+import { CalendarDays, Edit, Trash2 } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import type { AlbumEntity } from "../../model";
+import { ImageURL } from "@/lib/authClient";
 
 interface AlbumListProps {
   albums: AlbumEntity[];
@@ -83,9 +83,9 @@ export default function AlbumList({
             } p-6 shadow-2xl transition-shadow`}
           >
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-              <div className="space-y-2">
+              <div className="min-w-0 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h3 className="text-xl font-semibold text-gray-900 break-words">
                     {album.title || "Гарчиггүй цомог"}
                   </h3>
                   {album.year && (
@@ -96,7 +96,9 @@ export default function AlbumList({
                   )}
                 </div>
                 {album.description && (
-                  <p className="text-sm text-gray-600">{album.description}</p>
+                  <p className="max-h-24 overflow-hidden text-sm leading-relaxed text-gray-600 break-words whitespace-pre-line">
+                    {album.description}
+                  </p>
                 )}
               </div>
 
@@ -121,38 +123,38 @@ export default function AlbumList({
             </div>
 
             {Array.isArray(album.albums) && album.albums.length > 0 && (
-              <div className="mt-4 space-y-3">
-                <Separator />
-                <div className="space-y-3">
-                  {album.albums.map((item, index) => (
-                    <div
-                      key={`${id || "album"}-item-${index}`}
-                      className="rounded-lg border border-gray-100 bg-gray-50 p-4"
-                    >
-                      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">
-                            {item?.name || `Бичлэг ${index + 1}`}
-                          </p>
-                          {item?.location && (
-                            <p className="flex items-center gap-1 text-xs text-gray-600">
-                              <MapPin className="h-3.5 w-3.5" />
-                              {item.location}
-                            </p>
-                          )}
-                        </div>
-                        <div className="text-xs text-gray-500">
-                          {formatDate(item?.date)}
-                        </div>
-                      </div>
-                      {item?.cover && (
-                        <p className="mt-2 break-words text-xs text-gray-500">
-                          Хавтасны зураг: {item.cover}
-                        </p>
-                      )}
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                {album.albums.map((item, index) => (
+                  <div
+                    key={`${id || "album"}-item-${index}`}
+                    className="space-y-3 rounded-lg border border-gray-100 bg-gray-50 p-4"
+                  >
+                    <div className="grid grid-cols-[auto,1fr] gap-x-2 gap-y-1 text-xs text-gray-600">
+                      <span className="font-medium">Нэр:</span>
+                      <span className="min-w-0 break-words">
+                        {item.name || "—"}
+                      </span>
+                      <span className="font-medium">Хаана:</span>
+                      <span className="min-w-0 break-words">
+                        {item?.location || "—"}
+                      </span>
+                      <span className="font-medium">Огноо:</span>
+                      <span className="min-w-0 break-words">
+                        {formatDate(item?.date)}
+                      </span>
                     </div>
-                  ))}
-                </div>
+                    {item?.cover && (
+                      <div className="w-full overflow-hidden rounded-lg border border-gray-100 bg-white">
+                        <img
+                          src={ImageURL + item.cover}
+                          alt={item.name || "Цомгийн зураг"}
+                          className="h-40 w-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             )}
           </Card>

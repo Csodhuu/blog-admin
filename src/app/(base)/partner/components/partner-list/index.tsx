@@ -1,13 +1,14 @@
 "use client";
 
 import { useMemo } from "react";
-import { Edit, Image, Trash2 } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import type { PartnerEntity } from "../../model";
+import { ImageURL } from "@/lib/authClient";
 
 interface PartnerListProps {
   partners: PartnerEntity[];
@@ -58,7 +59,7 @@ export default function PartnerList({
   }
 
   return (
-    <div className=" grid grid-cols-5 gap-5 ">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
       {partners.map((partner) => {
         const id = extractId(partner);
         const isActive = id && activePartnerId && id === activePartnerId;
@@ -72,21 +73,19 @@ export default function PartnerList({
             } p-6 shadow-2xl transition-shadow`}
           >
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-              <div className="space-y-2 flex flex-col justify-center items-center w-full ">
-                <h3 className="text-xl font-semibold text-gray-900">
+              <div className="flex w-full min-w-0 flex-col items-center justify-center space-y-2">
+                <h3 className="text-center text-xl font-semibold text-gray-900 break-words">
                   {partner.name || "Нэргүй хамтрагч"}
                 </h3>
                 {partner.image ? (
-                  <p className="flex items-center gap-1 text-sm text-gray-600">
+                  <div className="w-full overflow-hidden rounded-lg border border-gray-100 bg-gray-50 p-3">
                     <img
-                      src={
-                        "https://backend.gatewaysportstravel.mn/" +
-                        partner.image
-                      }
-                      alt={partner.name}
-                      width={100}
+                      src={ImageURL + partner.image}
+                      alt={partner.name || "Хамтрагчийн лого"}
+                      className="h-16 w-full object-contain"
+                      loading="lazy"
                     />
-                  </p>
+                  </div>
                 ) : (
                   <p className="text-sm text-gray-500">
                     Лого оруулаагүй байна.

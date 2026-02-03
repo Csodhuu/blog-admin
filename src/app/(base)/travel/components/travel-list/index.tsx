@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import type { TravelEntity } from "../../model";
+import { ImageURL } from "@/lib/authClient";
 
 interface TravelListProps {
   travels: TravelEntity[];
@@ -61,14 +62,14 @@ export default function TravelList({
   if (!isLoading && travels.length === 0) {
     return (
       <Card className="p-6 text-sm text-gray-500 shadow-2xl">
-        Одоогоор аяллын мэдээлэл нэмэгдээгүй байна. &ldquo;Аялал нэмэх&rdquo; товчийг
-        дарж эхлээрэй.
+        Одоогоор аяллын мэдээлэл нэмэгдээгүй байна. &ldquo;Аялал нэмэх&rdquo;
+        товчийг дарж эхлээрэй.
       </Card>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 grid grid-cols-3 ">
       {travels.map((travel) => {
         const id = extractId(travel);
         const isActive = id && activeTravelId && id === activeTravelId;
@@ -81,10 +82,10 @@ export default function TravelList({
               isActive ? "border-primary" : "border-transparent"
             } p-6 shadow-2xl transition-shadow`}
           >
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-              <div className="space-y-2">
+            <div className="flex flex-col gap-4 ">
+              <div className="min-w-0 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h3 className="text-xl font-semibold text-gray-900 break-words">
                     {travel.title || "Гарчиггүй аялал"}
                   </h3>
                   {travel.destination && (
@@ -101,41 +102,39 @@ export default function TravelList({
                   )}
                 </div>
                 {travel.description && (
-                  <p className="text-sm text-gray-600">{travel.description}</p>
-                )}
-                {travel.image && (
-                  <p className="text-xs text-gray-500">
-                    Зураг:{' '}
-                    <a
-                      href={travel.image}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-primary underline"
-                    >
-                      {travel.image}
-                    </a>
+                  <p className="max-h-24 overflow-hidden text-sm leading-relaxed text-gray-600 break-words whitespace-pre-line">
+                    {travel.description}
                   </p>
                 )}
+                {travel.image && (
+                  <div className="w-full overflow-hidden rounded-lg border border-gray-100 bg-gray-50">
+                    <img
+                      src={ImageURL + travel.image}
+                      alt={travel.title || "Аяллын зураг"}
+                      className="h-48 w-full object-cover sm:h-56"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
               </div>
-
-              <div className="flex shrink-0 gap-2">
-                <Button
-                  variant={isActive ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => onEdit(travel)}
-                >
-                  <Edit className="mr-2 h-4 w-4" /> Засах
-                </Button>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => onDelete(travel)}
-                  disabled={isTravelDeleting}
-                >
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  {isTravelDeleting ? "Устгаж байна..." : "Устгах"}
-                </Button>
-              </div>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <Button
+                variant={isActive ? "default" : "outline"}
+                size="sm"
+                onClick={() => onEdit(travel)}
+              >
+                <Edit className="mr-2 h-4 w-4" /> Засах
+              </Button>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => onDelete(travel)}
+                disabled={isTravelDeleting}
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                {isTravelDeleting ? "Устгаж байна..." : "Устгах"}
+              </Button>
             </div>
           </Card>
         );

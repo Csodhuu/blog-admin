@@ -222,7 +222,7 @@ export default function TravelDialog({
             >
               Цуцлах
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting || isUploading}>
               {isSubmitting ? "Хадгалж байна..." : mode === "edit" ? "Шинэчлэх" : "Үүсгэх"}
             </Button>
           </DialogFooter>

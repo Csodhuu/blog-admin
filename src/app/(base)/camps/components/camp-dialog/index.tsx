@@ -236,7 +236,7 @@ export default function CampDialog({
             >
               Цуцлах
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting || isUploading}>
               {isSubmitting
                 ? "Хадгалж байна..."
                 : mode === "edit"

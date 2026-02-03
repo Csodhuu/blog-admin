@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import type { CompetitionEntity, CompetitionType } from "../../model";
+import { ImageURL } from "@/lib/authClient";
 
 interface CompetitionListProps {
   competitions: CompetitionEntity[];
@@ -80,17 +81,18 @@ export default function CompetitionList({
   if (!isLoading && competitions.length === 0) {
     return (
       <Card className="p-6 text-sm text-gray-500 shadow-2xl">
-        Одоогоор тэмцээний мэдээлэл нэмэгдээгүй байна. &ldquo;Тэмцээн нэмэх&rdquo;
-        товчийг дарж эхлээрэй.
+        Одоогоор тэмцээний мэдээлэл нэмэгдээгүй байна. &ldquo;Тэмцээн
+        нэмэх&rdquo; товчийг дарж эхлээрэй.
       </Card>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
       {competitions.map((competition) => {
         const id = extractId(competition);
-        const isActive = id && activeCompetitionId && id === activeCompetitionId;
+        const isActive =
+          id && activeCompetitionId && id === activeCompetitionId;
         const isCompetitionDeleting = Boolean(isDeleting && deletingId === id);
         const typeLabel = getTypeLabel(competition.type);
 
@@ -102,9 +104,9 @@ export default function CompetitionList({
             } p-6 shadow-2xl transition-shadow`}
           >
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-              <div className="space-y-2">
+              <div className="min-w-0 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h3 className="text-xl font-semibold text-gray-900 break-words">
                     {competition.title || "Гарчиггүй тэмцээн"}
                   </h3>
                   {competition.sport && (
@@ -127,47 +129,47 @@ export default function CompetitionList({
                   )}
                 </div>
                 {competition.location && (
-                  <p className="flex items-center gap-1 text-sm text-gray-600">
-                    <MapPin className="h-4 w-4" />
-                    {competition.location}
+                  <p className="flex items-start gap-1 text-sm text-gray-600">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span className="min-w-0 break-words">
+                      {competition.location}
+                    </span>
                   </p>
                 )}
                 {competition.description && (
-                  <p className="text-sm text-gray-600">{competition.description}</p>
-                )}
-                {competition.image && (
-                  <p className="text-xs text-gray-500">
-                    Зураг:{" "}
-                    <a
-                      href={competition.image}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-primary underline"
-                    >
-                      {competition.image}
-                    </a>
+                  <p className="max-h-24 overflow-hidden text-sm leading-relaxed text-gray-600 break-words whitespace-pre-line">
+                    {competition.description}
                   </p>
                 )}
+                {competition.image && (
+                  <div className="w-full overflow-hidden rounded-lg border border-gray-100 bg-gray-50">
+                    <img
+                      src={ImageURL + competition.image}
+                      alt={competition.title || "Тэмцээний зураг"}
+                      className="h-48 w-full object-cover sm:h-56"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
               </div>
-
-              <div className="flex shrink-0 gap-2">
-                <Button
-                  variant={isActive ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => onEdit(competition)}
-                >
-                  <Edit className="mr-2 h-4 w-4" /> Засах
-                </Button>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => onDelete(competition)}
-                  disabled={isCompetitionDeleting}
-                >
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  {isCompetitionDeleting ? "Устгаж байна..." : "Устгах"}
-                </Button>
-              </div>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <Button
+                variant={isActive ? "default" : "outline"}
+                size="sm"
+                onClick={() => onEdit(competition)}
+              >
+                <Edit className="mr-2 h-4 w-4" /> Засах
+              </Button>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => onDelete(competition)}
+                disabled={isCompetitionDeleting}
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                {isCompetitionDeleting ? "Устгаж байна..." : "Устгах"}
+              </Button>
             </div>
           </Card>
         );
