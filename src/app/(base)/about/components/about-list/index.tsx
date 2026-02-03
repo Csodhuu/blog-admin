@@ -52,7 +52,7 @@ export default function AboutList({
 }: AboutListProps) {
   const showLoadingState = useMemo(
     () => isLoading && (!abouts || abouts.length === 0),
-    [abouts, isLoading]
+    [abouts, isLoading],
   );
 
   if (showLoadingState) {
@@ -114,7 +114,10 @@ export default function AboutList({
               {about.paragraphImage && (
                 <div className="w-full">
                   <img
-                    src={about.paragraphImage}
+                    src={
+                      "https://backend.gatewaysportstravel.mn/" +
+                      about.paragraphImage
+                    }
                     className="w-full object-cover"
                   />
                 </div>

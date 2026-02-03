@@ -33,7 +33,7 @@ export default function PartnerList({
 }: PartnerListProps) {
   const showLoadingState = useMemo(
     () => isLoading && (!partners || partners.length === 0),
-    [partners, isLoading]
+    [partners, isLoading],
   );
 
   if (showLoadingState) {
@@ -78,7 +78,14 @@ export default function PartnerList({
                 </h3>
                 {partner.image ? (
                   <p className="flex items-center gap-1 text-sm text-gray-600">
-                    <img src={partner.image} alt={partner.name} width={100} />
+                    <img
+                      src={
+                        "https://backend.gatewaysportstravel.mn/" +
+                        partner.image
+                      }
+                      alt={partner.name}
+                      width={100}
+                    />
                   </p>
                 ) : (
                   <p className="text-sm text-gray-500">
