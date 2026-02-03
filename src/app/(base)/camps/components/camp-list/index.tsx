@@ -69,7 +69,7 @@ export default function CampList({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 grid grid-cols-1 md:grid-cols-3 md:gap-4">
       {camps.map((camp) => {
         const id = extractId(camp);
         const isActive = id && activeCampId && id === activeCampId;
@@ -83,9 +83,9 @@ export default function CampList({
             } p-6 shadow-2xl transition-shadow`}
           >
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-              <div className="space-y-2">
+              <div className="min-w-0 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h3 className="text-xl font-semibold text-gray-900 break-words">
                     {camp.title || "Гарчиггүй зуслан"}
                   </h3>
                   {camp.sport && (
@@ -102,42 +102,45 @@ export default function CampList({
                   )}
                 </div>
                 {camp.location && (
-                  <p className="flex items-center gap-1 text-sm text-gray-600">
-                    <MapPin className="h-4 w-4" />
-                    {camp.location}
+                  <p className="flex items-start gap-1 text-sm text-gray-600">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span className="min-w-0 break-words">{camp.location}</span>
                   </p>
                 )}
                 {camp.description && (
-                  <p className="text-sm text-gray-600">{camp.description}</p>
+                  <p className="max-h-24 overflow-hidden text-sm leading-relaxed text-gray-600 break-words whitespace-pre-line">
+                    {camp.description}
+                  </p>
                 )}
                 {camp.image && (
-                  <div className="w-full">
+                  <div className="w-full overflow-hidden rounded-lg border border-gray-100 bg-gray-50">
                     <img
                       src={ImageURL + camp.image}
-                      className="w-full object-cover"
+                      alt={camp.title || "Зуслангийн зураг"}
+                      className="w-full object-cover bg-red-300 "
+                      loading="lazy"
                     />
                   </div>
                 )}
               </div>
-
-              <div className="flex shrink-0 gap-2">
-                <Button
-                  variant={isActive ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => onEdit(camp)}
-                >
-                  <Edit className="mr-2 h-4 w-4" /> Засах
-                </Button>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => onDelete(camp)}
-                  disabled={isCampDeleting}
-                >
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  {isCampDeleting ? "Устгаж байна..." : "Устгах"}
-                </Button>
-              </div>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <Button
+                variant={isActive ? "default" : "outline"}
+                size="sm"
+                onClick={() => onEdit(camp)}
+              >
+                <Edit className="mr-2 h-4 w-4" /> Засах
+              </Button>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => onDelete(camp)}
+                disabled={isCampDeleting}
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                {isCampDeleting ? "Устгаж байна..." : "Устгах"}
+              </Button>
             </div>
           </Card>
         );

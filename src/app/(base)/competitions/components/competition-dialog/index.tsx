@@ -125,7 +125,7 @@ export default function CompetitionDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-lg overflow-y-scroll h-[850px] ">
         <form className="space-y-6" onSubmit={handleSubmit}>
           <DialogHeader className="pb-2 text-left">
             <DialogTitle className="text-lg font-semibold">
@@ -288,7 +288,7 @@ export default function CompetitionDialog({
             >
               Цуцлах
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting || isUploading}>
               {isSubmitting
                 ? "Хадгалж байна..."
                 : mode === "edit"

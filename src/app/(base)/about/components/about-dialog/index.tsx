@@ -583,7 +583,7 @@ export default function AboutDialog({
             >
               Цуцлах
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting || isUploading}>
               {mode === "edit" ? "Бичлэгийг шинэчлэх" : "Бичлэг үүсгэх"}
             </Button>
           </DialogFooter>
