@@ -28,7 +28,7 @@ service.interceptors.response.use(
 
     if (pathname.startsWith("/login")) return Promise.reject(err);
 
-    if (status === 401 || status === 403) {
+    if (status === 401) {
       window.location.replace(
         `/login?redirect=${encodeURIComponent(pathname)}`,
       );
