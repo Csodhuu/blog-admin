@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { toast } from "sonner";
 
 import { useLogin } from "./hook";
 import type { LoginForm, LoginResponse } from "./model";
+import { setAccessToken } from "@/utils/authToken";
 
 const initialFormValues: LoginForm & { remember: boolean } = {
   email: "",
@@ -16,6 +17,7 @@ const initialFormValues: LoginForm & { remember: boolean } = {
 
 export default function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [formValues, setFormValues] = useState(initialFormValues);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -30,10 +32,13 @@ export default function LoginForm() {
   });
 
   const handleSuccessfulLogin = async (data: LoginResponse) => {
+    if (!!data?.token) setAccessToken(data.token);
     setErrorMessage(null);
 
     toast.success("Амжилттай нэвтэрлээ.");
-    router.push("/admin-user");
+    const redirect = searchParams.get("redirect") || "/admin-user";
+
+    router.replace(redirect);
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

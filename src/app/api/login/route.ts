@@ -1,3 +1,4 @@
+// app/api/login/route.ts
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -12,32 +13,18 @@ export async function POST(req: NextRequest) {
     },
   );
 
-  const data = await upstream.json().catch(() => ({}));
+  const data = await upstream.json();
 
   if (!upstream.ok) {
     return NextResponse.json(
-      { message: data?.message || "Нэвтрэх явцад алдаа гарлаа." },
-      { status: upstream.status }
+      { message: data?.message || "Login failed" },
+      { status: upstream.status },
     );
   }
 
-  const accessToken = data.token;
-
-  const res = NextResponse.json({ ok: true });
-
-  const host = req.headers.get("host") || "";
-  const cookieDomain = host.endsWith("gatewaysportstravel.mn")
-    ? ".gatewaysportstravel.mn"
-    : undefined;
-
-  res.cookies.set("accessToken", accessToken, {
-    httpOnly: true,
-    secure: false, // REQUIRED on cPanel
-    sameSite: "lax",
-    path: "/", // 🔴 REQUIRED
-    domain: cookieDomain, // 🔴 REQUIRED
-    maxAge: 60 * 60 * 12,
+  // ✅ JUST RETURN TOKEN
+  return NextResponse.json({
+    token: data.token,
+    admin: data.admin,
   });
-
-  return res;
 }

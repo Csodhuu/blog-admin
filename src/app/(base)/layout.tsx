@@ -1,4 +1,5 @@
 "use client";
+import RequireAuth from "@/components/auth/RequireAuth";
 import Header from "@/components/layout/header";
 import MainSidebar from "@/components/layout/sidebar-layout";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -30,7 +31,9 @@ function AppWithMe({ children }: { children: ReactNode }) {
           <div className="flex-1 overflow-auto w-full">
             <Header />
             <div className="max-w-full mx-auto space-y-8 p-4">
-              <Suspense>{children}</Suspense>
+              <RequireAuth>
+                <Suspense>{children}</Suspense>
+              </RequireAuth>
               <Toaster richColors position="top-center" />
             </div>
           </div>
