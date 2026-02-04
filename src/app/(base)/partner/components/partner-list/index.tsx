@@ -34,7 +34,7 @@ export default function PartnerList({
 }: PartnerListProps) {
   const showLoadingState = useMemo(
     () => isLoading && (!partners || partners.length === 0),
-    [partners, isLoading]
+    [partners, isLoading],
   );
 
   if (showLoadingState) {

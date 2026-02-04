@@ -53,7 +53,7 @@ export default function AboutList({
 }: AboutListProps) {
   const showLoadingState = useMemo(
     () => isLoading && (!abouts || abouts.length === 0),
-    [abouts, isLoading]
+    [abouts, isLoading],
   );
 
   if (showLoadingState) {
