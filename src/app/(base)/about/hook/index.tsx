@@ -65,7 +65,7 @@ export const useUpdateAbout = () => {
 
   return useMutation({
     mutationFn: async ({ id, payload }: UpdateAboutArgs) => {
-      const res = await service.put(`/about/${id}`, payload);
+      const res = await service.post(`/about/update/${id}`, payload);
       return res.data;
     },
     onSuccess: () => {
@@ -83,7 +83,7 @@ export const useDeleteAbout = () => {
 
   return useMutation({
     mutationFn: async ({ id }: DeleteAboutArgs) => {
-      const res = await service.delete(`/about/${id}`);
+      const res = await service.post(`/about/delete/${id}`);
       return res.data;
     },
     onSuccess: () => {

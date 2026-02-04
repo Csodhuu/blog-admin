@@ -42,7 +42,7 @@ export const useUpdateCompetition = () => {
 
   return useMutation({
     mutationFn: async ({ id, payload }: UpdateCompetitionArgs) => {
-      const res = await service.put(`/competitions/${id}`, payload);
+      const res = await service.post(`/competitions/update/${id}`, payload);
       return res.data;
     },
     onSuccess: () => {
@@ -60,7 +60,7 @@ export const useDeleteCompetition = () => {
 
   return useMutation({
     mutationFn: async ({ id }: DeleteCompetitionArgs) => {
-      const res = await service.delete(`/competitions/${id}`);
+      const res = await service.post(`/competitions/delete/${id}`);
       return res.data;
     },
     onSuccess: () => {

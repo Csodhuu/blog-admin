@@ -40,7 +40,7 @@ export const useUpdateAlbum = () => {
 
   return useMutation({
     mutationFn: async ({ id, payload }: UpdateAlbumArgs) => {
-      const res = await service.put(`/albums/${id}`, payload);
+      const res = await service.post(`/albums/update/${id}`, payload);
       return res.data;
     },
     onSuccess: () => {
@@ -58,7 +58,7 @@ export const useDeleteAlbum = () => {
 
   return useMutation({
     mutationFn: async ({ id }: DeleteAlbumArgs) => {
-      const res = await service.delete(`/albums/${id}`);
+      const res = await service.post(`/albums/delete/${id}`);
       return res.data;
     },
     onSuccess: () => {

@@ -62,7 +62,7 @@ export const useUpdateContact = () => {
 
   return useMutation({
     mutationFn: async ({ id, payload }: UpdateContactArgs) => {
-      const res = await service.put(`/contact/${id}`, payload);
+      const res = await service.post(`/contact/update/${id}`, payload);
       return res.data;
     },
     onSuccess: () => {
@@ -80,7 +80,7 @@ export const useDeleteContact = () => {
 
   return useMutation({
     mutationFn: async ({ id }: DeleteContactArgs) => {
-      const res = await service.delete(`/contact/${id}`);
+      const res = await service.post(`/contact/delete/${id}`);
       return res.data;
     },
     onSuccess: () => {

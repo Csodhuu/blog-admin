@@ -40,7 +40,7 @@ export const useUpdateTravel = () => {
 
   return useMutation({
     mutationFn: async ({ id, payload }: UpdateTravelArgs) => {
-      const res = await service.put(`/travel/${id}`, payload);
+      const res = await service.post(`/travel/update/${id}`, payload);
       return res.data;
     },
     onSuccess: () => {
@@ -58,7 +58,7 @@ export const useDeleteTravel = () => {
 
   return useMutation({
     mutationFn: async ({ id }: DeleteTravelArgs) => {
-      const res = await service.delete(`/travel/${id}`);
+      const res = await service.post(`/travel/delete/${id}`);
       return res.data;
     },
     onSuccess: () => {

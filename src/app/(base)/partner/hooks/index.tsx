@@ -41,7 +41,7 @@ export const useUpdatePartner = () => {
 
   return useMutation({
     mutationFn: async ({ id, payload }: UpdatePartnerArgs) => {
-      const res = await service.put(`/partner/${id}`, payload);
+      const res = await service.post(`/partner//update/${id}`, payload);
       return res.data;
     },
     onSuccess: () => {
@@ -59,7 +59,7 @@ export const useDeletePartner = () => {
 
   return useMutation({
     mutationFn: async ({ id }: DeletePartnerArgs) => {
-      const res = await service.delete(`/partner/${id}`);
+      const res = await service.post(`/partner/delete/${id}`);
       return res.data;
     },
     onSuccess: () => {

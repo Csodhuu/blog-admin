@@ -40,7 +40,7 @@ export const useUpdateCamp = () => {
 
   return useMutation({
     mutationFn: async ({ id, payload }: UpdateCampArgs) => {
-      const res = await service.put(`/camps/${id}`, payload);
+      const res = await service.post(`/camps/update/${id}`, payload);
       return res.data;
     },
     onSuccess: () => {
@@ -58,7 +58,7 @@ export const useDeleteCamp = () => {
 
   return useMutation({
     mutationFn: async ({ id }: DeleteCampArgs) => {
-      const res = await service.delete(`/camps/${id}`);
+      const res = await service.post(`/camps/delete/${id}`);
       return res.data;
     },
     onSuccess: () => {

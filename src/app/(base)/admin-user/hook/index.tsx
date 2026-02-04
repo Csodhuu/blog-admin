@@ -46,7 +46,7 @@ export const useUpdateAdminUser = () => {
 
   return useMutation({
     mutationFn: async ({ id, payload }: UpdateAdminUserArgs) => {
-      const res = await service.put(`/admin/${id}`, payload);
+      const res = await service.post(`/admin/update/${id}`, payload);
       return res.data;
     },
     onSuccess: () => {
@@ -64,7 +64,7 @@ export const useDeleteAdminUser = () => {
 
   return useMutation({
     mutationFn: async ({ id }: DeleteAdminUserArgs) => {
-      const res = await service.delete(`/admin/${id}`);
+      const res = await service.post(`/admin/delete/${id}`);
       return res.data;
     },
     onSuccess: () => {
