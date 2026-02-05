@@ -3,6 +3,7 @@ import { albumKey } from "@/utils/react-query-key";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { AlbumEntity, AlbumPayload } from "../model";
+import { toast } from "sonner";
 
 type AlbumListResponse = { data: AlbumEntity[] } | AlbumEntity[];
 
@@ -48,6 +49,22 @@ export const useUpdateAlbum = () => {
     },
   });
 };
+type UpdateAlbumItemArgs = {
+  albumId: string;
+  itemId: string;
+};
+export function useUpdateAlbumItem() {
+  return useMutation({
+    mutationFn: async ({ albumId, itemId }: UpdateAlbumItemArgs) => {
+      const res = await service.post(`/albums/${albumId}/items/${itemId}`);
+      return res.data;
+    },
+
+    onError: () => {
+      toast.error("Зургийг устгахад алдаа гарлаа.");
+    },
+  });
+}
 
 export type DeleteAlbumArgs = {
   id: string;

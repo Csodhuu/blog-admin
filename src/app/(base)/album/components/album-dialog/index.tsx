@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useMemo, useState, type ChangeEvent } from "react";
@@ -20,6 +21,7 @@ import { ImageURL } from "@/lib/authClient";
 
 import type { AlbumItem, AlbumPayload } from "../../model";
 import { createEmptyAlbumPayload } from "../../model";
+import { useUpdateAlbumItem } from "../../hook";
 
 interface AlbumDialogProps {
   open: boolean;
@@ -101,11 +103,36 @@ export default function AlbumDialog({
     }));
   };
 
+  const updateAlbumItem = useUpdateAlbumItem();
+
   const handleRemoveAlbumItem = (index: number) => {
+    const albumId = initialValues?._id ?? (initialValues as any)?.id;
+
+    const currentItem = formValues.albums[index] as any;
+    const itemId = currentItem?._id ?? currentItem?.id;
+
+    const prevAlbums = formValues.albums;
     setFormValues((prev) => ({
       ...prev,
-      albums: prev.albums.filter((_, itemIndex) => itemIndex !== index),
+      albums: prev.albums.filter((_, i) => i !== index),
     }));
+
+    if (!albumId || !itemId) return;
+
+    console.log({ albumId, itemId });
+
+    updateAlbumItem.mutate(
+      { albumId, itemId },
+      {
+        onSuccess: () => {
+          toast.success("Зургийг устгалаа.");
+        },
+        onError: () => {
+          setFormValues((prev) => ({ ...prev, albums: prevAlbums }));
+          toast.error("Устгах үед алдаа гарлаа. Дахин оролдоно уу.");
+        },
+      }
+    );
   };
 
   const handleAlbumImagesUpload = async (

@@ -6,6 +6,7 @@ export type AlbumItem = {
 };
 
 export type AlbumPayload = {
+  _id?: string;
   title: string;
   description: string;
   year: string;
