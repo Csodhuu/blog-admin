@@ -41,12 +41,12 @@ const sanitizePayload = (values: AlbumPayload): AlbumPayload => ({
   year: values.year ? new Date(values.year).toISOString() : "",
   albums: values.albums
     .map((item) => ({
-      name: item.name.trim(),
-      location: item.location.trim(),
-      date: item.date ? new Date(item.date).toISOString() : "",
+      name: "",
+      location: "",
+      date: "",
       cover: item.cover.trim(),
     }))
-    .filter((item) => item.name || item.location || item.date || item.cover),
+    .filter((item) => item.cover),
 });
 
 const getErrorMessage = (error: unknown) => {

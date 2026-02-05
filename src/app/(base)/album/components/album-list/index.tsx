@@ -127,30 +127,18 @@ export default function AlbumList({
                 {album.albums.map((item, index) => (
                   <div
                     key={`${id || "album"}-item-${index}`}
-                    className="space-y-3 rounded-lg border border-gray-100 bg-gray-50 p-4"
+                    className="overflow-hidden rounded-lg border border-gray-100 bg-white"
                   >
-                    <div className="grid grid-cols-[auto,1fr] gap-x-2 gap-y-1 text-xs text-gray-600">
-                      <span className="font-medium">Нэр:</span>
-                      <span className="min-w-0 break-words">
-                        {item.name || "—"}
-                      </span>
-                      <span className="font-medium">Хаана:</span>
-                      <span className="min-w-0 break-words">
-                        {item?.location || "—"}
-                      </span>
-                      <span className="font-medium">Огноо:</span>
-                      <span className="min-w-0 break-words">
-                        {formatDate(item?.date)}
-                      </span>
-                    </div>
-                    {item?.cover && (
-                      <div className="w-full overflow-hidden rounded-lg border border-gray-100 bg-white">
-                        <img
-                          src={ImageURL + item.cover}
-                          alt={item.name || "Цомгийн зураг"}
-                          className="h-40 w-full object-cover"
-                          loading="lazy"
-                        />
+                    {item?.cover ? (
+                      <img
+                        src={ImageURL + item.cover}
+                        alt="Цомгийн зураг"
+                        className="h-40 w-full object-cover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="flex h-40 items-center justify-center text-xs text-gray-400">
+                        Зураг алга
                       </div>
                     )}
                   </div>

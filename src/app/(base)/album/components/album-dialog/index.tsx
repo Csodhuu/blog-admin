@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, type ChangeEvent } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { getUploadErrorMessage, uploadImage } from "@/utils/upload";
+import { ImageURL } from "@/lib/authClient";
 
 import type { AlbumItem, AlbumPayload } from "../../model";
 import { createEmptyAlbumPayload } from "../../model";
@@ -56,7 +57,8 @@ export default function AlbumDialog({
   const [formValues, setFormValues] = useState<AlbumPayload>(
     createEmptyAlbumPayload()
   );
-  const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
+  const [uploadingCount, setUploadingCount] = useState(0);
+  const isUploading = uploadingCount > 0;
 
   const normalizedInitialValues = useMemo<AlbumPayload>(() => {
     if (!initialValues) {
@@ -69,9 +71,9 @@ export default function AlbumDialog({
       year: formatDateForInput(initialValues.year),
       albums: Array.isArray(initialValues.albums)
         ? initialValues.albums.map((album) => ({
-            name: album?.name ?? "",
-            location: album?.location ?? "",
-            date: formatDateForInput(album?.date),
+            name: "",
+            location: "",
+            date: "",
             cover: album?.cover ?? "",
           }))
         : [],
@@ -81,12 +83,12 @@ export default function AlbumDialog({
   useEffect(() => {
     if (!open) {
       setFormValues(createEmptyAlbumPayload());
-      setUploadingIndex(null);
+      setUploadingCount(0);
       return;
     }
 
     setFormValues(normalizedInitialValues);
-    setUploadingIndex(null);
+    setUploadingCount(0);
   }, [open, normalizedInitialValues]);
 
   const handleFieldChange = <K extends keyof AlbumPayload>(
@@ -99,31 +101,6 @@ export default function AlbumDialog({
     }));
   };
 
-  const handleAlbumItemChange = <K extends keyof AlbumItem>(
-    index: number,
-    field: K,
-    value: AlbumItem[K]
-  ) => {
-    setFormValues((prev) => ({
-      ...prev,
-      albums: prev.albums.map((item, itemIndex) =>
-        itemIndex === index
-          ? {
-              ...item,
-              [field]: value,
-            }
-          : item
-      ),
-    }));
-  };
-
-  const handleAddAlbumItem = () => {
-    setFormValues((prev) => ({
-      ...prev,
-      albums: [...prev.albums, createEmptyAlbumItem()],
-    }));
-  };
-
   const handleRemoveAlbumItem = (index: number) => {
     setFormValues((prev) => ({
       ...prev,
@@ -131,34 +108,51 @@ export default function AlbumDialog({
     }));
   };
 
-  const handleAlbumCoverUpload = async (
-    index: number,
+  const handleAlbumImagesUpload = async (
     event: ChangeEvent<HTMLInputElement>
   ) => {
     const input = event.target;
-    const file = input.files?.[0];
+    const files = Array.from(input.files ?? []);
 
-    if (!file) {
+    if (files.length === 0) {
       input.value = "";
       return;
     }
 
-    const formData = new FormData();
-    formData.append("image", file);
+    setUploadingCount((prev) => prev + files.length);
+    let successCount = 0;
 
-    setUploadingIndex(index);
+    for (const file of files) {
+      try {
+        const uploadedUrl = await uploadImage(file);
 
-    try {
-      const uploadedUrl = await uploadImage(file);
-
-      handleAlbumItemChange(index, "cover", uploadedUrl);
-      toast.success("Зургийг амжилттай хууллаа.");
-    } catch (error) {
-      toast.error(getUploadErrorMessage(error));
-    } finally {
-      setUploadingIndex(null);
-      input.value = "";
+        setFormValues((prev) => ({
+          ...prev,
+          albums: [
+            ...prev.albums,
+            {
+              ...createEmptyAlbumItem(),
+              cover: uploadedUrl,
+            },
+          ],
+        }));
+        successCount += 1;
+      } catch (error) {
+        toast.error(getUploadErrorMessage(error));
+      } finally {
+        setUploadingCount((prev) => Math.max(prev - 1, 0));
+      }
     }
+
+    if (successCount > 0) {
+      toast.success(
+        successCount === 1
+          ? "Зургийг амжилттай хууллаа."
+          : `${successCount} зураг амжилттай хууллаа.`
+      );
+    }
+
+    input.value = "";
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -172,13 +166,17 @@ export default function AlbumDialog({
         <form className="space-y-6" onSubmit={handleSubmit}>
           <DialogHeader className="pb-2 text-left">
             <DialogTitle className="text-lg font-semibold">
-              {mode === "edit" ? "Зургийн цомгийг засах" : "Зургийн цомог нэмэх"}
+              {mode === "edit"
+                ? "Зургийн цомгийг засах"
+                : "Зургийн цомог нэмэх"}
             </DialogTitle>
           </DialogHeader>
 
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <label className="text-sm font-medium text-gray-700">Гарчиг</label>
+              <label className="text-sm font-medium text-gray-700">
+                Гарчиг
+              </label>
               <Input
                 placeholder="Зуны дурсамжууд"
                 value={formValues.title}
@@ -221,137 +219,66 @@ export default function AlbumDialog({
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-base font-semibold text-gray-900">
-                Цомгийн бичлэгүүд
+                Цомгийн зургууд
               </h3>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={handleAddAlbumItem}
-                disabled={isSubmitting}
-              >
-                <Plus className="mr-2 h-4 w-4" /> Бичлэг нэмэх
-              </Button>
+            </div>
+
+            <div className="grid gap-2">
+              <label className="text-sm font-medium text-gray-700">
+                Зураг нэмэх
+              </label>
+              <Input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleAlbumImagesUpload}
+                disabled={isSubmitting || isUploading}
+              />
+              {isUploading && (
+                <p className="text-xs text-gray-500">
+                  Зургийг хуулж байна... ({uploadingCount})
+                </p>
+              )}
+              <p className="text-xs text-gray-500">
+                Нэг дор олон зураг сонгож болно.
+              </p>
             </div>
 
             {formValues.albums.length === 0 ? (
               <p className="text-sm text-gray-500">
-                Одоогоор бичлэг алга. &ldquo;Бичлэг нэмэх&rdquo; товчийг ашиглан зураг,
-                үйл явдлаа бүртгээрэй.
+                Одоогоор зураг алга. &ldquo;Зураг нэмэх&rdquo; хэсгээс зургаа
+                сонгож оруулна уу.
               </p>
             ) : (
-              <div className="space-y-4">
+              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {formValues.albums.map((album, index) => (
                   <div
                     key={`album-item-${index}`}
-                    className="rounded-lg border border-gray-200 p-4 shadow-sm"
+                    className="relative overflow-hidden rounded-lg border border-gray-100 bg-white shadow-sm"
                   >
-                    <div className="flex flex-col gap-4 md:grid md:grid-cols-2">
-                      <div className="grid gap-2">
-                        <label className="text-sm font-medium text-gray-700">
-                          Нэр
-                        </label>
-                        <Input
-                          placeholder="Далайн эргийн наран жаргал"
-                          value={album.name}
-                          onChange={(event) =>
-                            handleAlbumItemChange(
-                              index,
-                              "name",
-                              event.target.value
-                            )
-                          }
-                          disabled={isSubmitting}
-                        />
+                    {album.cover ? (
+                      <img
+                        src={ImageURL + album.cover}
+                        alt={`Цомгийн зураг ${index + 1}`}
+                        className="h-40 w-full object-cover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="flex h-40 items-center justify-center text-xs text-gray-400">
+                        Зураг алга
                       </div>
-                      <div className="grid gap-2">
-                        <label className="text-sm font-medium text-gray-700">
-                          Байршил
-                        </label>
-                        <Input
-                          placeholder="Санта Моника, АНУ"
-                          value={album.location}
-                          onChange={(event) =>
-                            handleAlbumItemChange(
-                              index,
-                              "location",
-                              event.target.value
-                            )
-                          }
-                          disabled={isSubmitting}
-                        />
-                      </div>
-                      <div className="grid gap-2">
-                        <label className="text-sm font-medium text-gray-700">
-                          Огноо
-                        </label>
-                        <Input
-                          type="date"
-                          value={album.date}
-                          onChange={(event) =>
-                            handleAlbumItemChange(
-                              index,
-                              "date",
-                              event.target.value
-                            )
-                          }
-                          disabled={isSubmitting}
-                        />
-                      </div>
-                      <div className="grid gap-2">
-                        <label className="text-sm font-medium text-gray-700">
-                          Хавтасны зураг
-                        </label>
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          onChange={(event) =>
-                            handleAlbumCoverUpload(index, event)
-                          }
-                          disabled={
-                            isSubmitting || uploadingIndex === index
-                          }
-                        />
-                        {uploadingIndex === index && (
-                          <p className="text-xs text-gray-500">
-                            Зургийг хуулж байна...
-                          </p>
-                        )}
-                        <div className="space-y-1">
-                          <p className="text-xs font-medium text-gray-600">
-                            Хуулсан зургийн холбоос
-                          </p>
-                          {album.cover ? (
-                            <a
-                              href={album.cover}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="text-xs text-blue-600 underline break-words"
-                            >
-                              {album.cover}
-                            </a>
-                          ) : (
-                            <p className="text-xs text-gray-500">
-                              Зургийг хуулсны дараа холбоос энд харагдана.
-                            </p>
-                          )}
-                        </div>
-                        <p className="text-xs text-gray-500">
-                          Файлыг амжилттай хуулсны дараа холбоос автоматаар бөглөгдөнө.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex justify-end">
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleRemoveAlbumItem(index)}
-                        disabled={isSubmitting || uploadingIndex === index}
-                      >
-                        <Trash2 className="mr-2 h-4 w-4" /> Бичлэг устгах
-                      </Button>
-                    </div>
+                    )}
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="icon"
+                      className="absolute right-2 top-2"
+                      onClick={() => handleRemoveAlbumItem(index)}
+                      disabled={isSubmitting || isUploading}
+                      aria-label="Зургийг устгах"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </div>
                 ))}
               </div>
@@ -367,7 +294,7 @@ export default function AlbumDialog({
             >
               Цуцлах
             </Button>
-            <Button type="submit" disabled={isSubmitting || uploadingIndex !== null}>
+            <Button type="submit" disabled={isSubmitting || isUploading}>
               {isSubmitting
                 ? mode === "edit"
                   ? "Шинэчилж байна..."
