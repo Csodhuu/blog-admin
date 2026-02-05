@@ -52,11 +52,13 @@ const sanitizePayload = (values: CompetitionPayload): CompetitionPayload => ({
   title: values.title.trim(),
   sport: values.sport.trim(),
   date: values.date ? new Date(values.date).toISOString() : "",
+  endDate: values.endDate ? new Date(values.endDate).toISOString() : "",
   location: values.location.trim(),
   description: values.description.trim(),
   image: values.image.trim(),
   type: normalizeCompetitionType(values.type),
   link: values.link.trim(),
+  descriptionType: values.descriptionType ?? "list",
 });
 
 const getErrorMessage = (error: unknown) => {

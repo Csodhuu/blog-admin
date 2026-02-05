@@ -1,11 +1,14 @@
 export type CompetitionType = "upcomingEvents" | "pastEvents";
+export type CompetitionDescriptionType = "list" | "text";
 
 export type CompetitionPayload = {
   title: string;
   sport: string;
   date: string;
+  endDate: string;
   location: string;
   description: string;
+  descriptionType: CompetitionDescriptionType;
   image: string;
   type: CompetitionType;
   link: string;
@@ -22,9 +25,11 @@ export const createEmptyCompetitionPayload = (): CompetitionPayload => ({
   title: "",
   sport: "",
   date: "",
+  endDate: "",
   location: "",
   description: "",
   image: "",
   type: "upcomingEvents",
   link: "",
+  descriptionType: "list",
 });
