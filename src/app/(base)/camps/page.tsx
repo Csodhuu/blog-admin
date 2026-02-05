@@ -41,8 +41,10 @@ const sanitizePayload = (values: CampPayload): CampPayload => ({
   title: values.title.trim(),
   sport: values.sport.trim(),
   date: values.date ? new Date(values.date).toISOString() : "",
+  endDate: values.endDate ? new Date(values.endDate).toISOString() : "",
   location: values.location.trim(),
   description: values.description.trim(),
+  descriptionType: values.descriptionType ?? "list",
   image: values.image.trim(),
 });
 

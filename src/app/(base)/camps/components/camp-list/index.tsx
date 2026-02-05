@@ -33,6 +33,26 @@ const formatDate = (value?: string | null) => {
   return date.toLocaleDateString();
 };
 
+const formatDateRange = (start?: string | null, end?: string | null) => {
+  const startDate = formatDate(start);
+  const endDate = formatDate(end);
+
+  if (startDate === "—" && endDate === "—") return "—";
+  if (startDate !== "—" && endDate !== "—") return `${startDate} - ${endDate}`;
+  return startDate !== "—" ? startDate : endDate;
+};
+
+const parseDescriptionList = (raw?: string | null) => {
+  const value = (raw ?? "").trim();
+  if (!value) return [];
+
+  return value
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => line.replace(/^[-*•]\s+/, ""));
+};
+
 export default function CampList({
   camps,
   isLoading = false,
@@ -74,6 +94,12 @@ export default function CampList({
         const id = extractId(camp);
         const isActive = id && activeCampId && id === activeCampId;
         const isCampDeleting = Boolean(isDeleting && deletingId === id);
+        const descriptionType = camp.descriptionType ?? "text";
+        const descriptionItems =
+          descriptionType === "list"
+            ? parseDescriptionList(camp.description)
+            : [];
+        const dateLabel = formatDateRange(camp.date, camp.endDate);
 
         return (
           <Card
@@ -94,10 +120,10 @@ export default function CampList({
                       {camp.sport}
                     </span>
                   )}
-                  {camp.date && (
+                  {dateLabel && dateLabel !== "—" && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700">
                       <CalendarDays className="h-3.5 w-3.5" />
-                      {formatDate(camp.date)}
+                      {dateLabel}
                     </span>
                   )}
                 </div>
@@ -107,11 +133,23 @@ export default function CampList({
                     <span className="min-w-0 break-words">{camp.location}</span>
                   </p>
                 )}
-                {camp.description && (
+                {descriptionType === "list" ? (
+                  descriptionItems.length > 0 ? (
+                    <ul className="list-disc pl-5 text-sm leading-relaxed text-gray-700 space-y-1 max-h-32 overflow-auto">
+                      {descriptionItems.map((item, idx) => (
+                        <li key={`${id}-desc-${idx}`}>{item}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-sm text-gray-500">
+                      Тайлбарын жагсаалт байхгүй.
+                    </p>
+                  )
+                ) : camp.description ? (
                   <p className="max-h-24 overflow-hidden text-sm leading-relaxed text-gray-600 break-words whitespace-pre-line">
                     {camp.description}
                   </p>
-                )}
+                ) : null}
                 {camp.image && (
                   <div className="w-full overflow-hidden rounded-lg border border-gray-100 bg-gray-50">
                     <img

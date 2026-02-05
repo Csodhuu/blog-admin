@@ -33,6 +33,26 @@ const formatDate = (value?: string | null) => {
   return date.toLocaleDateString();
 };
 
+const formatDateRange = (start?: string | null, end?: string | null) => {
+  const startDate = formatDate(start);
+  const endDate = formatDate(end);
+
+  if (startDate === "—" && endDate === "—") return "—";
+  if (startDate !== "—" && endDate !== "—") return `${startDate} - ${endDate}`;
+  return startDate !== "—" ? startDate : endDate;
+};
+
+const parseDescriptionList = (raw?: string | null) => {
+  const value = (raw ?? "").trim();
+  if (!value) return [];
+
+  return value
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => line.replace(/^[-*•]\s+/, ""));
+};
+
 export default function TravelList({
   travels,
   isLoading = false,
@@ -74,6 +94,12 @@ export default function TravelList({
         const id = extractId(travel);
         const isActive = id && activeTravelId && id === activeTravelId;
         const isTravelDeleting = Boolean(isDeleting && deletingId === id);
+        const descriptionType = travel.descriptionType ?? "text";
+        const descriptionItems =
+          descriptionType === "list"
+            ? parseDescriptionList(travel.description)
+            : [];
+        const dateLabel = formatDateRange(travel.date, travel.endDate);
 
         return (
           <Card
@@ -94,18 +120,30 @@ export default function TravelList({
                       {travel.destination}
                     </span>
                   )}
-                  {travel.date && (
+                  {dateLabel && dateLabel !== "—" && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700">
                       <CalendarDays className="h-3.5 w-3.5" />
-                      {formatDate(travel.date)}
+                      {dateLabel}
                     </span>
                   )}
                 </div>
-                {travel.description && (
+                {descriptionType === "list" ? (
+                  descriptionItems.length > 0 ? (
+                    <ul className="list-disc pl-5 text-sm leading-relaxed text-gray-700 space-y-1 max-h-32 overflow-auto">
+                      {descriptionItems.map((item, idx) => (
+                        <li key={`${id}-desc-${idx}`}>{item}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-sm text-gray-500">
+                      Тайлбарын жагсаалт байхгүй.
+                    </p>
+                  )
+                ) : travel.description ? (
                   <p className="max-h-24 overflow-hidden text-sm leading-relaxed text-gray-600 break-words whitespace-pre-line">
                     {travel.description}
                   </p>
-                )}
+                ) : null}
                 {travel.image && (
                   <div className="w-full overflow-hidden rounded-lg border border-gray-100 bg-gray-50">
                     <img

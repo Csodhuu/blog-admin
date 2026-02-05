@@ -1,9 +1,13 @@
+export type CampDescriptionType = "list" | "text";
+
 export type CampPayload = {
   title: string;
   sport: string;
   date: string;
+  endDate: string;
   location: string;
   description: string;
+  descriptionType: CampDescriptionType;
   image: string;
 };
 
@@ -18,7 +22,9 @@ export const createEmptyCampPayload = (): CampPayload => ({
   title: "",
   sport: "",
   date: "",
+  endDate: "",
   location: "",
   description: "",
+  descriptionType: "list",
   image: "",
 });

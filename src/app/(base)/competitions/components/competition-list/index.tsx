@@ -135,7 +135,10 @@ export default function CompetitionList({
             ? parseDescriptionList(competition.description)
             : [];
         const imageSrc = resolveImageSrc(competition.image);
-        const dateLabel = formatDateRange(competition.date, competition.endDate);
+        const dateLabel = formatDateRange(
+          competition.date,
+          competition.endDate
+        );
 
         return (
           <Card

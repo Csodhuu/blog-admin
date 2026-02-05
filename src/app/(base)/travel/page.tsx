@@ -41,7 +41,9 @@ const sanitizePayload = (values: TravelPayload): TravelPayload => ({
   title: values.title.trim(),
   destination: values.destination.trim(),
   date: values.date ? new Date(values.date).toISOString() : "",
+  endDate: values.endDate ? new Date(values.endDate).toISOString() : "",
   description: values.description.trim(),
+  descriptionType: values.descriptionType ?? "list",
   image: values.image.trim(),
 });
 
